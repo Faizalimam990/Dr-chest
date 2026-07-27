@@ -1,0 +1,37 @@
+:root {
+  /* ── Surfaces ── deep clinical blue-black, never pure #000 (OLED smear) */
+  --void: #04090c; /* page background */
+  --panel: #081116; /* section panels */
+  --panel-raised: #0d1a21; /* cards */
+
+  /* ── Text ── cool off-white → muted slate */
+  --ink: #eaf6f8;
+  --ink-muted: #93a8b1;
+  --ink-faint: #5b727d;
+
+  /* ── Primary accent ── medical teal, used with discipline ── */
+  --accent: #2dd4bf;
+  --accent-deep: #0891b2;
+  --on-accent: #04090c;
+
+  /* ── Vital signal ── oxygen rose, reserved for pulse/ECG/heart only ── */
+  --vital: #fb7185;
+
+  /* Teal → cyan gradient (no rainbow, no AI purple). */
+  --gradient-primary: linear-gradient(135deg, #2dd4bf 0%, #22d3ee 55%, #0891b2 100%);
+
+  /* ── Legacy token aliases (kept so untouched components stay in sync) ── */
+  --indigo: var(--accent-deep);
+  --cyan: #22d3ee;
+  --acid: var(--accent);
+  --coral: var(--vital);
+
+  /* Subtle tints for glows / glass — teal + neutral only */
+  --glass-indigo: rgba(8, 145, 178, 0.12);
+  --glass-cyan: rgba(34, 211, 238, 0.08);
+  --glass-coral: rgba(251, 113, 133, 0.08);
+
+  --line: rgba(234, 246, 248, 0.1);
+
+  --nav-h: 78px;
+}
