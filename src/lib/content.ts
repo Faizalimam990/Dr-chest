@@ -12,11 +12,13 @@ import {
 
 /** Practice identity — single source of truth for the doctor's details. */
 export const DOCTOR = {
-  name: "Dr. Anya",
-  fullName: "Dr. Anya Raghunathan",
+  name: "Dr. Vijay Kumar",
+  fullName: "Dr. Vijay Kumar",
+  /** Short form for the tight spaces: nav on small screens, tab titles. */
+  shortName: "Dr. Vijay",
   credentials: "MD, DM (Pulmonology), FCCP",
   title: "Consultant Chest Physician & Interventional Pulmonologist",
-  email: "care@dranya.clinic",
+  email: "care@drvijaykumar.clinic",
   phone: "+91 80 4718 2200",
   phoneHref: "+918047182200",
   emergency: "+91 80 4718 2211",
@@ -190,7 +192,7 @@ export interface Testimonial {
 export const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      "I had been treated for asthma for six years. Dr. Anya ran one proper lung function test and found it was never asthma at all.",
+      "I had been treated for asthma for six years. Dr. Vijay Kumar ran one proper lung function test and found it was never asthma at all.",
     name: "Rohan M.",
     role: "Patient since 2022",
     company: "Indiranagar clinic",

@@ -148,14 +148,17 @@ function LiquidWordmark() {
         </filter>
       </defs>
 
+      {/* textLength pins the wordmark to the viewBox regardless of how long the
+          practitioner's name is, so it can never overflow or leave a gap. */}
       <text
         x="600"
         y="215"
         textAnchor="middle"
+        textLength="1100"
+        lengthAdjust="spacingAndGlyphs"
         fontFamily="'Figtree', 'Inter', sans-serif"
         fontWeight={700}
-        fontSize="215"
-        letterSpacing="-8"
+        fontSize="180"
         fill="url(#footer-liquid-grad)"
         filter="url(#footer-liquid)"
       >

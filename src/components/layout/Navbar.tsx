@@ -27,7 +27,7 @@ function Logo() {
         e.preventDefault();
         scrollToId("hero");
       }}
-      className="group relative flex items-center gap-2.5 font-display text-xl font-semibold tracking-tight text-ink"
+      className="group relative flex items-center gap-2.5 font-display text-lg font-semibold tracking-tight text-ink sm:text-xl"
       aria-label={`${DOCTOR.fullName} — home`}
     >
       <span className="flex h-8 w-8 items-center justify-center rounded-full border border-accent/40 bg-[rgba(45,212,191,0.08)]">

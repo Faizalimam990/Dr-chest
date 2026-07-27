@@ -19,6 +19,15 @@ const BREATH_PERIOD = 60 / 14;
 /** Resting heart rate — 72 bpm. */
 const BEAT_PERIOD = 60 / 72;
 
+/**
+ * Per-side lung placement. `scale` is [x, y, z]; a negative x mirrors the
+ * geometry (built with its medial face towards +x) onto the left side.
+ */
+const LUNGS = [
+  { side: -1, y: 0.14, scale: [1, 1.46, 1] as const }, // right: wider, shorter
+  { side: 1, y: 0.1, scale: [-0.9, 1.56, 0.96] as const }, // left: taller, notched
+];
+
 interface Props {
   reduced: boolean;
   small: boolean;
@@ -262,9 +271,12 @@ export default function ChestModel({ reduced, small }: Props) {
     mat.heart.opacity = 0.5 + xray * 0.45;
     if (heartRef.current) heartRef.current.scale.setScalar(1 + beat * 0.085);
 
-    /* ── diaphragm descends on inhale ── */
+    /* ── diaphragm flattens downwards on inhale ── */
     mat.diaphragm.opacity = 0.06 + xray * 0.16;
-    if (diaphragmRef.current) diaphragmRef.current.position.y = -1.34 - breath * 0.11;
+    if (diaphragmRef.current) {
+      diaphragmRef.current.position.y = -1.05 - breath * 0.12;
+      diaphragmRef.current.scale.y = 1 - breath * 0.22;
+    }
 
     /* ── CT-style slice sweeping the thorax ── */
     if (scanRef.current) {
@@ -310,14 +322,13 @@ export default function ChestModel({ reduced, small }: Props) {
       <mesh geometry={geo.sternum} material={mat.bone} />
       <mesh geometry={geo.clavicles} material={mat.bone} />
 
-      {/* ── lungs: right lung larger, left narrowed by the cardiac notch ── */}
+      {/* ── lungs ──
+          The right lung is wider but shorter (the liver pushes its base up);
+          the left is taller and narrowed by the cardiac notch. Both are scaled
+          to span from the first rib down onto the diaphragm dome. */}
       <group ref={lungGroup}>
-        {([-1, 1] as const).map((side) => (
-          <group
-            key={side}
-            position={[side * 0.52, 0.34, 0.02]}
-            scale={side === 1 ? [-0.9, 1.02, 0.96] : [1, 1.06, 1]}
-          >
+        {LUNGS.map((l) => (
+          <group key={l.side} position={[l.side * 0.5, l.y, 0.02]} scale={l.scale}>
             <mesh geometry={geo.lung} material={mat.lung} scale={0.92} />
             <mesh geometry={geo.lung} material={mat.lungWire} scale={0.94} />
           </group>
@@ -327,16 +338,15 @@ export default function ChestModel({ reduced, small }: Props) {
       {/* ── trachea and bronchial tree ── */}
       <mesh geometry={geo.airways} material={mat.airway} />
 
-      {/* ── heart, sitting in the cardiac notch ── */}
-      <mesh ref={heartRef} geometry={geo.heart} material={mat.heart} position={[0.18, 0.06, 0.16]} />
+      {/* ── heart, sitting in the cardiac notch of the left lung ── */}
+      <mesh ref={heartRef} geometry={geo.heart} material={mat.heart} position={[0.18, -0.04, 0.16]} />
 
-      {/* ── diaphragm ── */}
+      {/* ── diaphragm: dome apex points up into the thorax ── */}
       <mesh
         ref={diaphragmRef}
         geometry={geo.diaphragm}
         material={mat.diaphragm}
-        position={[0, -1.34, 0]}
-        rotation={[Math.PI, 0, 0]}
+        position={[0, -1.05, 0]}
       />
 
       {/* ── CT slice ── */}

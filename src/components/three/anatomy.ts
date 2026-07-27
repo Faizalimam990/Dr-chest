@@ -17,6 +17,13 @@ import { mergeGeometries } from "three/examples/jsm/utils/BufferGeometryUtils.js
 
 /* ─────────────────────────── shared profiles ─────────────────────────── */
 
+/**
+ * Clamp to 0–1. Needed before any fractional Math.pow: sphere poles land on
+ * ±radius with a float error of ~1e-8, and Math.pow(-1e-8, 0.5) is NaN, which
+ * silently poisons the whole buffer.
+ */
+const unit = (n: number) => (n < 0 ? 0 : n > 1 ? 1 : n);
+
 /** Half-width of the rib cage at normalised height t (0 = first rib). */
 const cageWidth = (t: number) => 0.58 + 0.95 * Math.sin(Math.PI * (0.18 + 0.66 * t));
 
@@ -124,19 +131,19 @@ export function buildSpine(): THREE.BufferGeometry {
 /** Sternum: manubrium, body and xiphoid process. */
 export function buildSternum(): THREE.BufferGeometry {
   const parts: THREE.BufferGeometry[] = [];
-  const d = cageDepth(0.35);
-
+  // Depths chosen to meet the anterior ends of the true ribs, which sit at
+  // cageDepth(t) * 1.06 — roughly 0.61 at the top and 0.74 at the costal margin.
   const manubrium = new THREE.BoxGeometry(0.34, 0.24, 0.075);
-  manubrium.translate(0, 1.3, d * 1.12);
+  manubrium.translate(0, 1.3, 0.6);
   parts.push(manubrium);
 
   const body = new THREE.BoxGeometry(0.24, 0.78, 0.07);
-  body.translate(0, 0.86, d * 1.14);
+  body.translate(0, 0.86, 0.66);
   parts.push(body);
 
   const xiphoid = new THREE.ConeGeometry(0.09, 0.2, 8);
   xiphoid.rotateX(Math.PI);
-  xiphoid.translate(0, 0.37, d * 1.12);
+  xiphoid.translate(0, 0.37, 0.66);
   parts.push(xiphoid);
 
   return mergeGeometries(parts, false)!;
@@ -174,7 +181,7 @@ export function buildLung(side: 1 | -1, segments = 46): THREE.BufferGeometry {
     v.fromBufferAttribute(pos, i);
 
     // Vertical taper: apex is roughly 45% of the width of the base.
-    const h = (v.y + 1) / 2; // 0 base → 1 apex
+    const h = unit((v.y + 1) / 2); // 0 base → 1 apex
     const taper = 0.44 + 0.56 * Math.pow(1 - h, 0.5);
     v.x *= taper;
     v.z *= taper * 0.74;
@@ -252,7 +259,7 @@ export function buildAirways(depth = 5, detail = 12): THREE.BufferGeometry {
         .clone()
         .normalize()
         .add(lateral.clone().multiplyScalar(sign * spread))
-        .add(new THREE.Vector3(0, -0.18, 0))
+        .add(new THREE.Vector3(0, -0.3, 0)) // gravity bias — the tree descends
         .normalize();
       branch(end, nd, nextLen, nextRad, level + 1, nextLateral);
     }
@@ -261,7 +268,7 @@ export function buildAirways(depth = 5, detail = 12): THREE.BufferGeometry {
   for (const s of [-1, 1] as const) {
     // Main bronchi leave the carina at ~35°, the right one more vertically.
     const dir = new THREE.Vector3(s * 0.7, -0.62, 0.06).normalize();
-    branch(carina, dir, 0.42, 0.058, 1, new THREE.Vector3(0, 0, 1));
+    branch(carina, dir, 0.46, 0.058, 1, new THREE.Vector3(0, 0, 1));
   }
 
   return mergeGeometries(parts, false)!;
@@ -277,7 +284,7 @@ export function buildHeart(segments = 32): THREE.BufferGeometry {
 
   for (let i = 0; i < pos.count; i++) {
     v.fromBufferAttribute(pos, i);
-    const h = (v.y / 0.34 + 1) / 2; // 0 apex → 1 base
+    const h = unit((v.y / 0.34 + 1) / 2); // 0 apex → 1 base
     const taper = 0.42 + 0.58 * Math.pow(h, 0.8);
     v.x *= taper;
     v.z *= taper * 0.86;

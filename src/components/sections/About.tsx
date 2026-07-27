@@ -175,13 +175,12 @@ export default function About() {
 
             <div data-reveal className="mt-8 space-y-5 text-lg leading-relaxed text-ink-muted">
               <p>
-                {DOCTOR.name} is a consultant chest physician and interventional pulmonologist. She
-                trained in internal medicine at PGIMER, took her DM in pulmonary medicine at AIIMS,
-                and completed an interventional pulmonology fellowship at the Royal Brompton in
-                London.
+                {DOCTOR.name} is a consultant chest physician and interventional pulmonologist,
+                trained in internal medicine at PGIMER, with a DM in pulmonary medicine from AIIMS
+                and an interventional pulmonology fellowship at the Royal Brompton in London.
               </p>
               <p>
-                Her practice is built around one conviction: a patient who understands their own
+                The practice is built around one conviction: a patient who understands their own
                 lungs takes their treatment more seriously than one who was simply handed a
                 prescription. Every consultation ends with the scan on screen and the diagnosis in
                 plain language.

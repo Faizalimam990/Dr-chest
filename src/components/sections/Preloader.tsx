@@ -145,8 +145,8 @@ export default function Preloader() {
             style={{ width: `${count}%` }}
           />
         </div>
-        <div className="relative mt-5 font-display text-xs uppercase tracking-[0.4em] text-ink-faint">
-          {DOCTOR.name} · Chest & Lung Clinic
+        <div className="relative mt-5 whitespace-nowrap font-display text-[10px] uppercase tracking-[0.26em] text-ink-faint sm:text-xs sm:tracking-[0.4em]">
+          {DOCTOR.shortName} · Chest & Lung Clinic
         </div>
       </div>
     </div>
