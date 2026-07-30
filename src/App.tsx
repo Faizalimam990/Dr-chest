@@ -9,7 +9,7 @@ import Preloader from "@/components/sections/Preloader";
 import Hero from "@/components/sections/Hero";
 import LogoMarquee from "@/components/sections/LogoMarquee";
 import About from "@/components/sections/About";
-import ConditionsArc from "@/components/sections/ConditionsArc";
+import CredentialWall from "@/components/sections/CredentialWall";
 import ServicesOrbit from "@/components/sections/ServicesOrbit";
 import PatientJourney from "@/components/sections/PatientJourney";
 import Stats from "@/components/sections/Stats";
@@ -48,7 +48,7 @@ export default function App() {
         <Hero />
         <LogoMarquee />
         <About />
-        <ConditionsArc />
+        <CredentialWall />
         <ServicesOrbit />
         <PatientJourney />
         <Stats />

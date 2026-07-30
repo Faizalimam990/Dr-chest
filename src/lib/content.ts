@@ -12,30 +12,36 @@ import {
 
 /** Practice identity — single source of truth for the doctor's details. */
 export const DOCTOR = {
-  name: "Dr. Vijay Kumar",
-  fullName: "Dr. Vijay Kumar",
+  name: "Dr. Vijay Kumar Sharma",
+  fullName: "Dr. Vijay Kumar Sharma",
   /** Short form for the tight spaces: nav on small screens, tab titles. */
   shortName: "Dr. Vijay",
-  credentials: "MD, DM (Pulmonology), FCCP",
-  title: "Consultant Chest Physician & Interventional Pulmonologist",
+  credentials: "MBBS, MD (Chest Medicine), FCC, DAA",
+  /** Expanded qualification list for the places that can carry it in full. */
+  credentialsLong:
+    "MBBS · MD (Chest Medicine) · FCC (Clinical Cardiology) · DAA (CMC Vellore)",
+  title: "Interventional Pulmonologist",
+  /** Current academic appointment. */
+  post: "Associate Professor, Department of Respiratory Medicine",
+  institution: "RKDF Medical College, Bhopal",
   email: "care@drvijaykumar.clinic",
   phone: "+91 80 4718 2200",
   phoneHref: "+918047182200",
   emergency: "+91 80 4718 2211",
-  registration: "KMC Reg. 2011-58412",
-  experienceYears: 14,
+  registration: "DMC Reg. 61372 · MPMC Reg. 16135",
+  experienceYears: 18,
 };
 
-/** Hospital affiliations & accreditations for the trust marquee. */
+/** Institutions, councils & academies behind the training — trust marquee. */
 export const AFFILIATIONS = [
-  "Apollo Chest Institute",
-  "European Respiratory Society",
-  "American College of Chest Physicians",
+  "RKDF Medical College, Bhopal",
+  "Madhya Pradesh Medical Council",
+  "Delhi Medical Council",
+  "Gandhi Medical College, Bhopal",
+  "Sri Aurobindo Institute of Medical Sciences",
+  "CMC Vellore",
   "Indian Chest Society",
-  "NABH Accredited",
-  "Manipal Sleep Lab",
-  "Global TB Alliance",
-  "Fleischner Society",
+  "Bombay Hospital Institute of Medical Sciences",
 ];
 
 export interface Service {
@@ -175,8 +181,8 @@ export interface Stat {
 }
 
 export const STATS: Stat[] = [
-  { value: 12000, suffix: "+", label: "patients treated since 2011" },
-  { value: 14, suffix: " yrs", label: "specialist chest practice" },
+  { value: 12000, suffix: "+", label: "patients treated" },
+  { value: 18, suffix: "+ yrs", label: "specialist chest practice" },
   { value: 2400, suffix: "+", label: "bronchoscopies performed" },
   { value: 4.9, suffix: "/5", decimals: 1, label: "patient rating · 860+ reviews" },
 ];
@@ -192,7 +198,7 @@ export interface Testimonial {
 export const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      "I had been treated for asthma for six years. Dr. Vijay Kumar ran one proper lung function test and found it was never asthma at all.",
+      "I had been treated for asthma for six years. Dr. Sharma ran one proper lung function test and found it was never asthma at all.",
     name: "Rohan M.",
     role: "Patient since 2022",
     company: "Indiranagar clinic",
@@ -304,13 +310,132 @@ export interface Credential {
   place: string;
 }
 
-/** Training timeline for the About section. */
+/** Training timeline for the About section — drawn from the framed record. */
 export const CREDENTIALS: Credential[] = [
-  { year: "2006", title: "MBBS", place: "St. John's Medical College, Bangalore" },
-  { year: "2011", title: "MD — Internal Medicine", place: "PGIMER, Chandigarh" },
-  { year: "2014", title: "DM — Pulmonary Medicine", place: "AIIMS, New Delhi" },
-  { year: "2016", title: "Fellowship — Interventional Pulmonology", place: "Royal Brompton, London" },
-  { year: "2019", title: "FCCP", place: "American College of Chest Physicians" },
+  { year: "2013", title: "MBBS", place: "Gandhi Medical College, Bhopal — Barkatullah University" },
+  { year: "2014", title: "Permanent Registration", place: "Madhya Pradesh Medical Council" },
+  {
+    year: "2019",
+    title: "MD — Chest Medicine",
+    place: "MP Medical Science University, Jabalpur",
+  },
+  { year: "2019", title: "Registration", place: "Delhi Medical Council" },
+  { year: "2020", title: "FCC — Fellowship in Clinical Cardiology", place: "Medvarsity" },
+  { year: "", title: "DAA — Allergy & Asthma", place: "Christian Medical College, Vellore" },
+];
+
+export interface Certificate {
+  /** Basename of the pair in /public/certificates: `<slug>.jpg` + `<slug>-card.jpg`. */
+  slug: string;
+  title: string;
+  issuer: string;
+  year: string;
+  /** Small-caps kicker on the card. */
+  tag: string;
+  orientation: "landscape" | "portrait";
+}
+
+/**
+ * The wall, digitised — each frame photographed, deskewed and cropped from the
+ * clinic's certificate wall. Order is the arc order, degrees first.
+ */
+export const CERTIFICATES: Certificate[] = [
+  {
+    slug: "mbbs-barkatullah",
+    title: "Bachelor of Medicine & Surgery",
+    issuer: "Barkatullah University, Bhopal",
+    year: "2013",
+    tag: "Degree",
+    orientation: "portrait",
+  },
+  {
+    slug: "md-chest-medicine",
+    title: "MD — Chest Medicine",
+    issuer: "MP Medical Science University, Jabalpur",
+    year: "2019",
+    tag: "Postgraduate",
+    orientation: "portrait",
+  },
+  {
+    slug: "delhi-medical-council",
+    title: "Certificate of Registration",
+    issuer: "Delhi Medical Council",
+    year: "2019",
+    tag: "Registration",
+    orientation: "landscape",
+  },
+  {
+    slug: "mp-medical-council",
+    title: "Permanent Registration",
+    issuer: "Madhya Pradesh Medical Council",
+    year: "2014",
+    tag: "Registration",
+    orientation: "portrait",
+  },
+  {
+    slug: "fcc-clinical-cardiology",
+    title: "Fellowship in Clinical Cardiology",
+    issuer: "Medvarsity",
+    year: "2020",
+    tag: "Fellowship",
+    orientation: "landscape",
+  },
+  {
+    slug: "basic-bronchoscopy",
+    title: "Basic Bronchoscopy Course",
+    issuer: "K. J. Somaiya & Bombay Hospital, Mumbai",
+    year: "2018",
+    tag: "Interventional",
+    orientation: "landscape",
+  },
+  {
+    slug: "interventional-pulmonology",
+    title: "Interventional Pulmonology League",
+    issuer: "S. L. Raheja Hospital, Mumbai",
+    year: "2018",
+    tag: "Interventional",
+    orientation: "landscape",
+  },
+  {
+    slug: "philips-sleep-coe",
+    title: "Centre of Excellence — Level II",
+    issuer: "Philips Sleep Medicine",
+    year: "2018",
+    tag: "Sleep medicine",
+    orientation: "landscape",
+  },
+  {
+    slug: "critical-care-sonography",
+    title: "Critical Care Sonography",
+    issuer: "Choithram Hospital & Research Centre, Indore",
+    year: "2018",
+    tag: "Critical care",
+    orientation: "landscape",
+  },
+  {
+    slug: "lung-cancer-consortium",
+    title: "Lung Cancer Consortium Asia",
+    issuer: "Faculty / delegate, Mumbai",
+    year: "2018",
+    tag: "Thoracic oncology",
+    orientation: "landscape",
+  },
+  {
+    slug: "echocardiography",
+    title: "Echocardiography for All",
+    issuer: "Buzz4health with CareNet",
+    year: "2021",
+    tag: "Cardiac imaging",
+    orientation: "landscape",
+  },
+  {
+    slug: "cardiology-conference",
+    title: "15th International Conference on Cardiology",
+    issuer: "Delegate / chairperson, Bhopal",
+    year: "2017",
+    tag: "Faculty",
+    orientation: "landscape",
+  },
 ];
 
 export interface Clinic {

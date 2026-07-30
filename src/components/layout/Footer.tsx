@@ -196,9 +196,16 @@ export default function Footer() {
         <div className="grid gap-12 pb-16 md:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="font-display text-lg font-semibold text-ink">{DOCTOR.fullName}</div>
-            <p className="mt-2 text-sm leading-relaxed text-ink-muted">{DOCTOR.title}</p>
+            <p className="mt-2 text-sm leading-relaxed text-ink-muted">
+              {DOCTOR.title}
+              <br />
+              {DOCTOR.post}, {DOCTOR.institution}
+            </p>
             <p className="nums mt-4 text-[11px] uppercase tracking-[0.18em] text-ink-faint">
-              {DOCTOR.credentials} · {DOCTOR.registration}
+              {DOCTOR.credentialsLong}
+            </p>
+            <p className="nums mt-1.5 text-[11px] uppercase tracking-[0.18em] text-ink-faint">
+              {DOCTOR.registration}
             </p>
             <div className="mt-6 max-w-[220px]">
               <EcgLine beats={4} duration={3.6} className="h-8 opacity-70" />

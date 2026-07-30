@@ -1,10 +1,11 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import { useGSAP } from "@gsap/react";
-import { BadgeCheck, Languages, GraduationCap } from "lucide-react";
+import { ArrowUpRight, BadgeCheck, Languages, GraduationCap } from "lucide-react";
 import { gsap } from "@/lib/gsap";
 import { DOCTOR, CREDENTIALS } from "@/lib/content";
 import { prefersReducedMotion } from "@/lib/env";
+import { scrollToId } from "@/hooks/useLenis";
 import { useReveal } from "@/hooks/useReveal";
 import EcgLine from "@/components/ui/EcgLine";
 
@@ -109,6 +110,11 @@ function PortraitPlate() {
           <div>
             <div className="font-display text-lg font-semibold text-ink">{DOCTOR.fullName}</div>
             <div className="mt-0.5 text-[13px] text-ink-faint">{DOCTOR.credentials}</div>
+            <div className="mt-2 text-[12px] leading-snug text-ink-muted">
+              {DOCTOR.title}
+              <br />
+              {DOCTOR.post}, {DOCTOR.institution}
+            </div>
           </div>
           <span className="flex items-center gap-1.5 rounded-full border border-accent/40 px-3 py-1 text-[11px] uppercase tracking-[0.14em] text-accent">
             <BadgeCheck className="h-3.5 w-3.5" /> Verified
@@ -169,15 +175,17 @@ export default function About() {
               data-reveal
               className="mt-5 font-display text-display-sm font-semibold leading-[1.02] text-ink"
             >
-              Fourteen years spent listening to{" "}
+              Eighteen years spent listening to{" "}
               <em className="accent-serif text-gradient">lungs.</em>
             </h2>
 
             <div data-reveal className="mt-8 space-y-5 text-lg leading-relaxed text-ink-muted">
               <p>
-                {DOCTOR.name} is a consultant chest physician and interventional pulmonologist,
-                trained in internal medicine at PGIMER, with a DM in pulmonary medicine from AIIMS
-                and an interventional pulmonology fellowship at the Royal Brompton in London.
+                {DOCTOR.name} is an interventional pulmonologist with an MD in chest medicine, a
+                fellowship in clinical cardiology and a diploma in allergy &amp; asthma from CMC
+                Vellore. He serves as Associate Professor in the Department of Respiratory Medicine
+                at {DOCTOR.institution}, alongside {DOCTOR.experienceYears} years of clinical
+                practice in airway, interstitial, infectious and sleep-related disease.
               </p>
               <p>
                 The practice is built around one conviction: a patient who understands their own
@@ -203,9 +211,19 @@ export default function About() {
 
             {/* ── training timeline ── */}
             <div className="mt-12">
-              <h3 className="flex items-center gap-2 font-display text-sm font-semibold uppercase tracking-[0.2em] text-ink-faint">
-                <GraduationCap className="h-4 w-4" /> Training & fellowships
-              </h3>
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <h3 className="flex items-center gap-2 font-display text-sm font-semibold uppercase tracking-[0.2em] text-ink-faint">
+                  <GraduationCap className="h-4 w-4" /> Training & fellowships
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => scrollToId("credentials")}
+                  className="group flex items-center gap-1.5 font-display text-[12px] uppercase tracking-[0.16em] text-accent transition-opacity hover:opacity-80"
+                >
+                  See the certificates
+                  <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </button>
+              </div>
 
               <div className="relative mt-8 pl-8">
                 {/* rail */}
@@ -230,9 +248,11 @@ export default function About() {
                         aria-hidden
                         className="absolute -left-8 top-1.5 h-[15px] w-[15px] rounded-full border-2 border-accent bg-void"
                       />
-                      <div className="nums font-display text-[13px] font-semibold tracking-widest text-accent">
-                        {c.year}
-                      </div>
+                      {c.year && (
+                        <div className="nums font-display text-[13px] font-semibold tracking-widest text-accent">
+                          {c.year}
+                        </div>
+                      )}
                       <div className="mt-1 font-display text-lg font-semibold text-ink">
                         {c.title}
                       </div>
@@ -249,7 +269,7 @@ export default function About() {
             >
               <span className="flex items-center gap-2">
                 <Languages className="h-4 w-4 text-accent" />
-                Consults in English, Hindi, Kannada & Tamil
+                Consults in English & Hindi
               </span>
             </div>
           </div>

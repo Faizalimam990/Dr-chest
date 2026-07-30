@@ -17,9 +17,38 @@ const LINK_TARGET: Record<string, string> = {
   Contact: "contact",
 };
 
+/** Rolling-letter treatment for one wordmark string. */
+function Roll({ label }: { label: string }) {
+  const letters = label.split("");
+  return (
+    <span className="relative flex overflow-hidden">
+      {letters.map((l, i) => (
+        <span
+          key={i}
+          className="inline-block whitespace-pre transition-transform duration-300 ease-out-expo group-hover:-translate-y-full"
+          style={{ transitionDelay: `${i * 25}ms` }}
+        >
+          {l}
+        </span>
+      ))}
+      {/* Second copy rolls up into view. */}
+      <span aria-hidden className="absolute left-0 flex">
+        {letters.map((l, i) => (
+          <span
+            key={i}
+            className="inline-block translate-y-full whitespace-pre text-accent transition-transform duration-300 ease-out-expo group-hover:translate-y-0"
+            style={{ transitionDelay: `${i * 25}ms` }}
+          >
+            {l}
+          </span>
+        ))}
+      </span>
+    </span>
+  );
+}
+
 /** Wordmark with a rolling-letter hover and a pulsing vitals glyph. */
 function Logo() {
-  const letters = DOCTOR.name.split("");
   return (
     <a
       href="#hero"
@@ -33,28 +62,12 @@ function Logo() {
       <span className="flex h-8 w-8 items-center justify-center rounded-full border border-accent/40 bg-[rgba(45,212,191,0.08)]">
         <Activity className="h-4 w-4 text-accent" strokeWidth={2.2} />
       </span>
-      <span className="relative flex overflow-hidden">
-        {letters.map((l, i) => (
-          <span
-            key={i}
-            className="inline-block whitespace-pre transition-transform duration-300 ease-out-expo group-hover:-translate-y-full"
-            style={{ transitionDelay: `${i * 25}ms` }}
-          >
-            {l}
-          </span>
-        ))}
-        {/* Second copy rolls up into view. */}
-        <span aria-hidden className="absolute left-0 flex">
-          {letters.map((l, i) => (
-            <span
-              key={i}
-              className="inline-block whitespace-pre translate-y-full text-accent transition-transform duration-300 ease-out-expo group-hover:translate-y-0"
-              style={{ transitionDelay: `${i * 25}ms` }}
-            >
-              {l}
-            </span>
-          ))}
-        </span>
+      {/* Short form where the bar is tight, the full name from sm up. */}
+      <span className="sm:hidden">
+        <Roll label={DOCTOR.shortName} />
+      </span>
+      <span className="hidden sm:inline-flex">
+        <Roll label={DOCTOR.name} />
       </span>
     </a>
   );

@@ -357,9 +357,8 @@ export default function Hero() {
             </h1>
 
             <p data-hero-sub className="mt-7 max-w-lg text-lg leading-relaxed text-ink-muted">
-              Chest, lung and sleep medicine in Bengaluru. {DOCTOR.experienceYears} years of
-              pulmonology, lung function testing read on-site, and a diagnosis explained in words
-              you actually use.
+              Chest, lung and sleep medicine. {DOCTOR.experienceYears}+ years of pulmonology, lung
+              function testing read on-site, and a diagnosis explained in words you actually use.
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-4">
@@ -376,7 +375,11 @@ export default function Hero() {
             </div>
 
             <ul className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
-              {[DOCTOR.credentials, `${DOCTOR.experienceYears} yrs practice`, "3 Bengaluru clinics"].map(
+              {[
+                DOCTOR.credentials,
+                `${DOCTOR.experienceYears}+ yrs practice`,
+                `Associate Professor · ${DOCTOR.institution}`,
+              ].map(
                 (item) => (
                   <li
                     data-hero-trust
