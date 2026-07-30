@@ -1,4 +1,9 @@
-import { forwardRef, type ReactNode, type ButtonHTMLAttributes } from "react";
+import {
+  forwardRef,
+  type ReactNode,
+  type AnchorHTMLAttributes,
+  type ButtonHTMLAttributes,
+} from "react";
 import { useMagnetic } from "@/hooks/useMagnetic";
 import { useCursorVariant } from "@/hooks/useCursorVariant";
 
@@ -9,6 +14,8 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: Variant;
   strength?: number;
   className?: string;
+  /** Renders as an anchor instead of a button — for tel:, mailto: and links. */
+  href?: string;
 }
 
 /**
@@ -16,7 +23,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
  * "hover-magnetic" cursor variant, and animates its own gradient border.
  */
 const MagneticButton = forwardRef<HTMLButtonElement, Props>(function MagneticButton(
-  { children, variant = "primary", strength = 0.45, className = "", ...rest },
+  { children, variant = "primary", strength = 0.45, className = "", href, ...rest },
   _ref,
 ) {
   const magneticRef = useMagnetic<HTMLSpanElement>({ strength, radius: 90 });
@@ -29,11 +36,24 @@ const MagneticButton = forwardRef<HTMLButtonElement, Props>(function MagneticBut
       ? "btn-gradient animate-gradient-shift hover:brightness-110"
       : "gradient-border text-ink hover:text-acid bg-[rgba(244,244,250,0.02)]";
 
+  const inner = <span className="pointer-events-none inline-flex items-center gap-2">{children}</span>;
+
   return (
     <span ref={magneticRef} className="inline-block will-change-transform">
-      <button className={`${base} ${styles} ${className}`} {...cursor} {...rest}>
-        <span className="pointer-events-none inline-flex items-center gap-2">{children}</span>
-      </button>
+      {href ? (
+        <a
+          href={href}
+          className={`${base} ${styles} ${className}`}
+          {...cursor}
+          {...(rest as unknown as AnchorHTMLAttributes<HTMLAnchorElement>)}
+        >
+          {inner}
+        </a>
+      ) : (
+        <button className={`${base} ${styles} ${className}`} {...cursor} {...rest}>
+          {inner}
+        </button>
+      )}
     </span>
   );
 });

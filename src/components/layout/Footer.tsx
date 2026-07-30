@@ -315,10 +315,10 @@ export default function Footer() {
             The information on this site is for general guidance and is not a substitute for a
             consultation, diagnosis, or treatment. In an emergency, call{" "}
             <a
-              href={`tel:${DOCTOR.emergency.replace(/\s/g, "")}`}
+              href="tel:108"
               className="nums text-vital underline decoration-vital/40 underline-offset-2"
             >
-              {DOCTOR.emergency}
+              108
             </a>{" "}
             or attend your nearest emergency department.
             <span className="mt-2 block">

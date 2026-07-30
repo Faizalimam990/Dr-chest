@@ -1,7 +1,7 @@
 import { Suspense, lazy, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { AnimatePresence, motion } from "framer-motion";
-import { CalendarCheck, Activity } from "lucide-react";
+import { CalendarCheck, Phone } from "lucide-react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { useUIStore } from "@/store/uiStore";
 import { prefersReducedMotion, isTouchDevice } from "@/lib/env";
@@ -368,8 +368,13 @@ export default function Hero() {
                 </MagneticButton>
               </div>
               <div data-hero-cta>
-                <MagneticButton variant="ghost" onClick={() => scrollToId("services")}>
-                  <Activity className="h-4 w-4" /> Explore care
+                <MagneticButton
+                  variant="ghost"
+                  href={`tel:${DOCTOR.phoneHref}`}
+                  aria-label={`Call ${DOCTOR.name} on ${DOCTOR.phone}`}
+                >
+                  <Phone className="h-4 w-4" />
+                  <span className="nums">{DOCTOR.phone}</span>
                 </MagneticButton>
               </div>
             </div>

@@ -25,9 +25,8 @@ export const DOCTOR = {
   post: "Associate Professor, Department of Respiratory Medicine",
   institution: "RKDF Medical College, Bhopal",
   email: "care@drvijaykumar.clinic",
-  phone: "+91 80 4718 2200",
-  phoneHref: "+918047182200",
-  emergency: "+91 80 4718 2211",
+  phone: "+91 83490 31096",
+  phoneHref: "+918349031096",
   registration: "DMC Reg. 61372 · MPMC Reg. 16135",
   experienceYears: 18,
 };
@@ -451,36 +450,17 @@ export interface Clinic {
   services: string[];
 }
 
-/** Clinic locations for the map section. */
+/** Where the consultations happen — powers the map section. */
 export const CLINICS: Clinic[] = [
   {
-    name: "Indiranagar Chest Clinic",
-    area: "Indiranagar",
-    address: "412, 100 Feet Road, HAL 2nd Stage, Indiranagar, Bengaluru 560038",
-    hours: "Mon–Fri · 9:00 – 17:00",
-    phone: "+91 80 4718 2200",
-    coords: [12.9719, 77.6412],
-    bbox: "77.6262,12.9639,77.6562,12.9799",
-    services: ["Consultation", "Spirometry", "Allergy panel"],
-  },
-  {
-    name: "Whitefield Pulmonary Centre",
-    area: "Whitefield",
-    address: "2nd Floor, Prestige Shantiniketan, Whitefield Main Road, Bengaluru 560048",
-    hours: "Mon, Wed, Fri · 14:00 – 19:00",
-    phone: "+91 80 4718 2205",
-    coords: [12.9959, 77.7278],
-    bbox: "77.7128,12.9879,77.7428,13.0039",
-    services: ["Consultation", "Bronchoscopy", "Pulmonary rehab"],
-  },
-  {
-    name: "Jayanagar Sleep Lab",
-    area: "Jayanagar",
-    address: "18, 11th Main Road, 4th Block, Jayanagar, Bengaluru 560011",
-    hours: "Tue & Thu · 10:00 – 16:00 · Sleep studies overnight",
-    phone: "+91 80 4718 2208",
-    coords: [12.9299, 77.5826],
-    bbox: "77.5676,12.9219,77.5976,12.9379",
-    services: ["Polysomnography", "CPAP titration", "Sleep consult"],
+    name: "RKDF Medical College Hospital & Research Centre",
+    area: "Misrod, Bhopal",
+    address:
+      "Associate Professor, Department of Respiratory Medicine, RKDF Medical College, Ruchi Lifescape Road, Misrod, Bhopal 462026",
+    hours: "OPD by appointment",
+    phone: DOCTOR.phone,
+    coords: [23.1761, 77.4789],
+    bbox: "77.4689,23.1691,77.4889,23.1831",
+    services: ["Consultation", "Spirometry", "Bronchoscopy", "Sleep study"],
   },
 ];

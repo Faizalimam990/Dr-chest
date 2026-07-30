@@ -161,12 +161,12 @@ export default function Contact() {
               <p className="text-sm leading-relaxed text-ink-muted">
                 <span className="font-semibold text-ink">This form is not for emergencies.</span> If
                 you are severely breathless at rest, coughing blood, or your reliever inhaler has
-                stopped working, go to an emergency department now or call{" "}
+                stopped working, go to an emergency department now or call the ambulance service on{" "}
                 <a
-                  href={`tel:${DOCTOR.emergency.replace(/\s/g, "")}`}
+                  href="tel:108"
                   className="nums font-semibold text-vital underline decoration-vital/40 underline-offset-2"
                 >
-                  {DOCTOR.emergency}
+                  108
                 </a>
                 .
               </p>
@@ -199,7 +199,7 @@ export default function Contact() {
                     type="tel"
                     inputMode="tel"
                     className={inputCls(errors.phone?.message)}
-                    placeholder="+91 98450 00000"
+                    placeholder="Your 10-digit mobile number"
                     autoComplete="tel"
                     aria-invalid={!!errors.phone}
                   />
