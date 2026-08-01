@@ -78,7 +78,7 @@ function Lightbox({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
-      className="fixed inset-0 z-[160] flex flex-col bg-void/92 backdrop-blur-xl"
+      className="fixed inset-0 z-[160] flex flex-col bg-void/95 backdrop-blur-xl"
       onClick={onClose}
     >
       <div className="flex items-center justify-between gap-4 px-[clamp(1rem,4vw,2.5rem)] pt-[clamp(1rem,3vw,2rem)]">
@@ -90,7 +90,7 @@ function Lightbox({
           type="button"
           onClick={onClose}
           aria-label="Close certificate"
-          className="grid h-11 w-11 place-items-center rounded-full border border-line bg-panel-raised/70 text-ink transition-colors hover:border-accent/60 hover:text-accent"
+          className="grid h-11 w-11 place-items-center rounded-full border border-line bg-panel-raised/80 text-ink transition-colors hover:border-accent/60 hover:text-accent"
         >
           <X className="h-5 w-5" />
         </button>
@@ -104,7 +104,7 @@ function Lightbox({
             e.stopPropagation();
             onStep(-1);
           }}
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line bg-panel-raised/70 text-ink transition-colors hover:border-accent/60 hover:text-accent"
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line bg-panel-raised/80 text-ink transition-colors hover:border-accent/60 hover:text-accent"
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
@@ -157,7 +157,7 @@ function Lightbox({
             e.stopPropagation();
             onStep(1);
           }}
-          className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line bg-panel-raised/70 text-ink transition-colors hover:border-accent/60 hover:text-accent"
+          className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-line bg-panel-raised/80 text-ink transition-colors hover:border-accent/60 hover:text-accent"
         >
           <ChevronRight className="h-5 w-5" />
         </button>
@@ -226,13 +226,13 @@ export default function CredentialWall() {
             <span className="eyebrow-dot" />
             Credentials & training
           </span>
-          <h2 className="mt-6 font-display text-[clamp(3rem,13vw,11rem)] font-semibold leading-[0.85] tracking-tight text-ink/90">
+          <h2 className="mt-6 font-display text-[clamp(3rem,13vw,11rem)] font-semibold leading-[0.85] tracking-tight text-ink">
             TRAINED
           </h2>
           <p className="my-4 max-w-md text-center text-sm uppercase tracking-widest text-ink-faint">
             Degrees, council registration, fellowships and hands-on course certification
           </p>
-          <h2 className="font-display text-[clamp(3rem,13vw,11rem)] font-semibold leading-[0.85] tracking-tight text-ink/90">
+          <h2 className="font-display text-[clamp(3rem,13vw,11rem)] font-semibold leading-[0.85] tracking-tight text-ink">
             CERTIFIED
           </h2>
         </div>
@@ -283,7 +283,7 @@ export default function CredentialWall() {
                         "linear-gradient(180deg, rgba(4,9,12,0) 45%, rgba(4,9,12,0.55) 100%)",
                     }}
                   />
-                  <span className="absolute right-2.5 top-2.5 grid h-7 w-7 place-items-center rounded-full border border-white/25 bg-void/55 text-ink backdrop-blur-sm transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
+                  <span className="absolute right-2.5 top-2.5 grid h-7 w-7 place-items-center rounded-full border border-white/25 bg-void/60 text-ink backdrop-blur-sm transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5">
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </span>
                 </div>

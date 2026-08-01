@@ -34,6 +34,10 @@ export const DOCTOR = {
 /** Institutions, councils & academies behind the training — trust marquee. */
 export const AFFILIATIONS = [
   "RKDF Medical College, Bhopal",
+  "Max Hospital, Saket",
+  "Fortis Hospital, Vasant Kunj",
+  "LRS Institute (NITRD), New Delhi",
+  "Maulana Azad Medical College",
   "Madhya Pradesh Medical Council",
   "Delhi Medical Council",
   "Gandhi Medical College, Bhopal",
@@ -204,7 +208,7 @@ export const TESTIMONIALS: Testimonial[] = [
   },
   {
     quote:
-      "She put my CT scan on the screen and explained every shadow on it. It was the first time anyone made my own lungs make sense to me.",
+      "He put my CT scan on the screen and explained every shadow on it. It was the first time anyone made my own lungs make sense to me.",
     name: "Sandhya K.",
     role: "Pulmonary fibrosis",
     company: "Referred from Apollo",
@@ -321,6 +325,22 @@ export const CREDENTIALS: Credential[] = [
   { year: "2019", title: "Registration", place: "Delhi Medical Council" },
   { year: "2020", title: "FCC — Fellowship in Clinical Cardiology", place: "Medvarsity" },
   { year: "", title: "DAA — Allergy & Asthma", place: "Christian Medical College, Vellore" },
+];
+
+export interface Posting {
+  hospital: string;
+  city: string;
+}
+
+/**
+ * Hospitals worked at before the current post — confirmed by the practitioner.
+ * No dates given, so the list is presented unordered rather than as a timeline.
+ */
+export const EXPERIENCE: Posting[] = [
+  { hospital: "Max Hospital, Saket", city: "New Delhi" },
+  { hospital: "Fortis Hospital, Vasant Kunj", city: "New Delhi" },
+  { hospital: "Maulana Azad Medical College (MAMC)", city: "New Delhi" },
+  { hospital: "LRS Institute of TB & Respiratory Diseases (NITRD)", city: "New Delhi" },
 ];
 
 export interface Certificate {

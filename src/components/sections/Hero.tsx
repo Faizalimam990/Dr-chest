@@ -78,12 +78,14 @@ function OrbitStage() {
           chips.forEach((c, i) => {
             const ang = a + (i / chips.length) * Math.PI * 2;
             const depth = (Math.sin(ang) + 1) / 2; // 0 behind → 1 in front
+            // Depth still reads through scale and a touch of blur, but every
+            // chip stays legible — they sit over the bright ribcage.
             gsap.set(c, {
               x: Math.cos(ang) * rx,
               y: Math.sin(ang) * ry,
-              scale: 0.76 + depth * 0.3,
-              opacity: 0.28 + depth * 0.62,
-              filter: `blur(${(1 - depth) * 1.6}px)`,
+              scale: 0.86 + depth * 0.2,
+              opacity: 0.72 + depth * 0.28,
+              filter: `blur(${(1 - depth) * 0.5}px)`,
               zIndex: Math.round(depth * 10),
             });
           });
@@ -141,7 +143,7 @@ function OrbitStage() {
           <span
             data-orbit
             key={label}
-            className="absolute left-1/2 top-1/2 flex items-center gap-2 whitespace-nowrap rounded-full border border-line bg-panel-raised/70 px-3.5 py-1.5 font-display text-[13px] font-medium text-ink shadow-[0_8px_30px_rgba(0,0,0,0.45)] backdrop-blur-md"
+            className="absolute left-1/2 top-1/2 flex items-center gap-2 whitespace-nowrap rounded-full border border-white/15 bg-void/90 px-3.5 py-1.5 font-display text-[13px] font-medium text-ink shadow-[0_8px_30px_rgba(0,0,0,0.6)] backdrop-blur-md [text-shadow:0_1px_3px_rgba(0,0,0,0.75)]"
           >
             <span className="h-1 w-1 rounded-full bg-accent" />
             {label}
@@ -273,17 +275,31 @@ export default function Hero() {
         )
         .from("[data-hero-hud]", { opacity: 0, x: -20, duration: 0.8 }, "-=0.9");
 
-      if (reduced) return;
-
       // The copy and the orbit chips clear out of the way early, leaving the
-      // anatomy sequence the whole stage.
+      // anatomy sequence the whole stage. These hand-offs are structural, not
+      // decoration — the narration card occupies the same space on small
+      // screens — so they run under reduced motion too, as plain opacity.
       gsap.to("[data-hero-copy]", {
-        yPercent: -12,
         opacity: 0,
-        filter: "blur(6px)",
+        ...(reduced ? {} : { yPercent: -12, filter: "blur(6px)" }),
         ease: "none",
         scrollTrigger: { trigger: root.current, start: "top top", end: "18% top", scrub: true },
       });
+      // Mobile has no empty column to hold the headline, so the whole stage is
+      // veiled until the copy has left; the veil lifts as the anatomy takes over.
+      gsap.to("[data-hero-veil]", {
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: { trigger: root.current, start: "top top", end: "22% top", scrub: true },
+      });
+      gsap.to(cueRef.current, {
+        opacity: 0,
+        ease: "none",
+        scrollTrigger: { trigger: root.current, start: "top top", end: "8% top", scrub: true },
+      });
+
+      if (reduced) return;
+
       gsap.to("[data-orbit-stage]", {
         opacity: 0,
         scale: 0.92,
@@ -294,11 +310,6 @@ export default function Hero() {
         opacity: 0,
         ease: "none",
         scrollTrigger: { trigger: root.current, start: "70% top", end: "bottom bottom", scrub: true },
-      });
-      gsap.to(cueRef.current, {
-        opacity: 0,
-        ease: "none",
-        scrollTrigger: { trigger: root.current, start: "top top", end: "8% top", scrub: true },
       });
     },
     { scope: root, dependencies: [loaded] },
@@ -325,28 +336,46 @@ export default function Hero() {
                 <HeroScene />
               </Suspense>
             </ErrorBoundary>
-            {/* Left fade keeps the headline legible where it overlaps the stage. */}
+            {/* Left fade keeps the headline legible where it overlaps the stage.
+                From lg up the copy has its own column, so only that edge needs it. */}
             <div
               aria-hidden
-              className="absolute inset-0 z-10"
+              className="absolute inset-0 z-10 hidden lg:block"
               style={{
                 background:
                   "linear-gradient(to right, var(--void) 0%, rgba(4,9,12,0.72) 20%, rgba(4,9,12,0.18) 42%, transparent 62%)",
               }}
+            />
+            {/* Below lg the copy sits straight on top of the ribcage, so the
+                stage is veiled instead — lifted by scroll as the copy departs. */}
+            <div
+              aria-hidden
+              data-hero-veil
+              className="absolute inset-0 z-10 bg-void/[0.87] lg:hidden"
             />
             <OrbitStage />
           </div>
         </div>
 
         {/* ── headline copy ── */}
-        <div data-hero-copy className="container-edge relative z-30 pt-[var(--nav-h)]">
+        {/* The bottom padding lifts the centred block clear of the scroll cue,
+            which shares the bottom of the viewport on phones. */}
+        <div
+          data-hero-copy
+          className="container-edge relative z-30 pb-28 pt-[var(--nav-h)] lg:pb-0"
+        >
           <div className="max-w-2xl">
-            <span data-hero-eyebrow className="eyebrow">
+            <span data-hero-eyebrow className="eyebrow max-w-full">
               <span className="eyebrow-dot is-coral" />
-              {DOCTOR.name} · {DOCTOR.title.split("&")[0].trim()}
+              {/* The full billing needs two lines on a phone — the name is
+                  already in the bar above, so the title carries it there. */}
+              <span className="hidden sm:inline">
+                {DOCTOR.name} · {DOCTOR.title.split("&")[0].trim()}
+              </span>
+              <span className="sm:hidden">{DOCTOR.title.split("&")[0].trim()}</span>
             </span>
 
-            <h1 className="mt-7 font-display text-display-lg font-semibold text-ink">
+            <h1 className="mt-6 font-display text-display-lg font-semibold text-ink sm:mt-7">
               {HEADLINE.map((line, i) => (
                 <span key={i} className="line-mask">
                   <span data-hero-line className="block will-reveal">
@@ -356,12 +385,15 @@ export default function Hero() {
               ))}
             </h1>
 
-            <p data-hero-sub className="mt-7 max-w-lg text-lg leading-relaxed text-ink-muted">
+            <p
+              data-hero-sub
+              className="mt-5 max-w-lg text-base leading-relaxed text-ink-muted sm:mt-7 sm:text-lg"
+            >
               Chest, lung and sleep medicine. {DOCTOR.experienceYears}+ years of pulmonology, lung
               function testing read on-site, and a diagnosis explained in words you actually use.
             </p>
 
-            <div className="mt-9 flex flex-wrap items-center gap-4">
+            <div className="mt-7 flex flex-wrap items-center gap-3 sm:mt-9 sm:gap-4">
               <div data-hero-cta>
                 <MagneticButton onClick={() => scrollToId("contact")}>
                   Book an appointment <CalendarCheck className="h-4 w-4" />
@@ -379,7 +411,7 @@ export default function Hero() {
               </div>
             </div>
 
-            <ul className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <ul className="mt-7 flex flex-wrap items-center gap-x-5 gap-y-2 sm:mt-10 sm:gap-x-6 sm:gap-y-3">
               {[
                 DOCTOR.credentials,
                 `${DOCTOR.experienceYears}+ yrs practice`,
@@ -458,7 +490,7 @@ export default function Hero() {
           ref={cueRef}
           className="pointer-events-none absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-3"
         >
-          <span className="font-display text-[11px] uppercase tracking-[0.3em] text-ink-faint">
+          <span className="whitespace-nowrap font-display text-[10px] uppercase tracking-[0.22em] text-ink-muted [text-shadow:0_1px_3px_rgba(0,0,0,0.8)] sm:text-[11px] sm:tracking-[0.3em]">
             Scroll to look inside
           </span>
           <span className="relative h-12 w-px overflow-hidden bg-line">

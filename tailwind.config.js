@@ -2,31 +2,34 @@
 export default {
   content: ["./index.html", "./src/**/*.{ts,tsx}"],
   theme: {
-    // Wipe the default palette — only brand tokens exist.
+    // Wipe the default palette — only brand tokens exist. Every colour is
+    // written through its channel triplet so `/opacity` modifiers work:
+    // a bare `var(--void)` would make `bg-void/70` compile to nothing.
     colors: {
       transparent: "transparent",
       current: "currentColor",
-      void: "var(--void)",
+      white: "rgb(255 255 255 / <alpha-value>)",
+      void: "rgb(var(--void-rgb) / <alpha-value>)",
       panel: {
-        DEFAULT: "var(--panel)",
-        raised: "var(--panel-raised)",
+        DEFAULT: "rgb(var(--panel-rgb) / <alpha-value>)",
+        raised: "rgb(var(--panel-raised-rgb) / <alpha-value>)",
       },
       ink: {
-        DEFAULT: "var(--ink)",
-        muted: "var(--ink-muted)",
-        faint: "var(--ink-faint)",
+        DEFAULT: "rgb(var(--ink-rgb) / <alpha-value>)",
+        muted: "rgb(var(--ink-muted-rgb) / <alpha-value>)",
+        faint: "rgb(var(--ink-faint-rgb) / <alpha-value>)",
       },
       accent: {
-        DEFAULT: "var(--accent)",
-        deep: "var(--accent-deep)",
+        DEFAULT: "rgb(var(--accent-rgb) / <alpha-value>)",
+        deep: "rgb(var(--accent-deep-rgb) / <alpha-value>)",
       },
-      vital: "var(--vital)",
+      vital: "rgb(var(--vital-rgb) / <alpha-value>)",
       line: "var(--line)",
       // Legacy aliases so pre-existing utility classes keep resolving.
-      indigo: "var(--indigo)",
-      cyan: "var(--cyan)",
-      acid: "var(--acid)",
-      coral: "var(--coral)",
+      indigo: "rgb(var(--accent-deep-rgb) / <alpha-value>)",
+      cyan: "rgb(var(--cyan-rgb) / <alpha-value>)",
+      acid: "rgb(var(--accent-rgb) / <alpha-value>)",
+      coral: "rgb(var(--vital-rgb) / <alpha-value>)",
       "glass-indigo": "var(--glass-indigo)",
       "glass-cyan": "var(--glass-cyan)",
       "glass-coral": "var(--glass-coral)",

@@ -170,7 +170,7 @@ export default function ServicesOrbit() {
           <div className="absolute left-1/2 top-1/2 h-[80%] w-[80%] -translate-x-1/2 -translate-y-1/2 animate-breathe rounded-full border border-accent/20" />
 
           {/* centre detail */}
-          <div className="absolute left-1/2 top-1/2 flex w-[48%] -translate-x-1/2 -translate-y-1/2 flex-col items-center text-center">
+          <div className="absolute left-1/2 top-1/2 flex w-[52%] -translate-x-1/2 -translate-y-1/2 flex-col items-center text-center md:w-[48%]">
             <AnimatePresence mode="wait">
               <motion.div
                 key={active}
@@ -179,16 +179,18 @@ export default function ServicesOrbit() {
                 exit={{ opacity: 0, y: -12 }}
                 transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               >
-                <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-full border border-accent/40 bg-[rgba(45,212,191,0.08)] text-accent">
+                <span className="mx-auto flex h-10 w-10 items-center justify-center rounded-full border border-accent/40 bg-[rgba(45,212,191,0.08)] text-accent md:h-12 md:w-12">
                   <CurIcon className="h-5 w-5" strokeWidth={1.8} />
                 </span>
-                <span className="mt-4 block font-display text-xs font-medium tracking-[0.3em] text-accent">
+                <span className="mt-3 block font-display text-[11px] font-medium tracking-[0.3em] text-accent md:mt-4 md:text-xs">
                   {String(active + 1).padStart(2, "0")}
                 </span>
-                <h3 className="mt-2 font-display text-2xl font-semibold text-ink md:text-3xl">
+                <h3 className="mt-2 font-display text-lg font-semibold leading-tight text-ink sm:text-2xl md:text-3xl">
                   {cur.name}
                 </h3>
-                <p className="mx-auto mt-3 max-w-[17rem] text-sm leading-relaxed text-ink-muted">
+                {/* The ring leaves no room for prose on a phone — the copy
+                    moves out below the wheel instead. */}
+                <p className="mx-auto mt-3 hidden max-w-[17rem] text-sm leading-relaxed text-ink-muted md:block">
                   {cur.desc}
                 </p>
               </motion.div>
@@ -228,6 +230,20 @@ export default function ServicesOrbit() {
             );
           })}
         </div>
+
+        {/* Active service copy, phone layout only — see the centre detail above. */}
+        <AnimatePresence mode="wait">
+          <motion.p
+            key={active}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="mx-auto mt-2 max-w-md text-center text-sm leading-relaxed text-ink-muted md:hidden"
+          >
+            {cur.desc}
+          </motion.p>
+        </AnimatePresence>
 
         <div className="mt-6 flex justify-center">
           <button

@@ -1,9 +1,9 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import { useGSAP } from "@gsap/react";
-import { ArrowUpRight, BadgeCheck, Languages, GraduationCap } from "lucide-react";
+import { ArrowUpRight, BadgeCheck, Building2, Languages, GraduationCap } from "lucide-react";
 import { gsap } from "@/lib/gsap";
-import { DOCTOR, CREDENTIALS } from "@/lib/content";
+import { DOCTOR, CREDENTIALS, EXPERIENCE } from "@/lib/content";
 import { prefersReducedMotion } from "@/lib/env";
 import { scrollToId } from "@/hooks/useLenis";
 import { useReveal } from "@/hooks/useReveal";
@@ -12,101 +12,55 @@ import EcgLine from "@/components/ui/EcgLine";
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 /**
- * Line-art clinical portrait. Original artwork rather than stock photography:
- * it draws itself in on reveal, stays on palette, and doesn't put a licensing
- * or a real person's likeness into the build.
+ * The practitioner's own photograph, graded into the palette rather than
+ * dropped in raw: the source is a warm, bright clinic snap and the page is a
+ * cool near-black, so it gets a light desaturation, a teal soft-light wash and
+ * a vignette to sink its edges into the plate.
  */
 function PortraitPlate() {
   const reduced = prefersReducedMotion();
 
-  const draw = (delay: number) =>
-    reduced
-      ? { pathLength: 1, opacity: 1 }
-      : {
-          pathLength: 1,
-          opacity: 1,
-          transition: { pathLength: { duration: 1.6, delay, ease: EASE }, opacity: { duration: 0.2, delay } },
-        };
-
   return (
     <div className="relative overflow-hidden rounded-3xl border border-line bg-panel-raised">
-      {/* ambient wash */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 60% at 50% 18%, rgba(45,212,191,0.16), transparent 70%)",
-        }}
-      />
-      <div aria-hidden className="scan-grid pointer-events-none absolute inset-0 opacity-60" />
-
-      <motion.svg
-        viewBox="0 0 400 460"
-        className="relative w-full"
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.35 }}
-        role="img"
-        aria-label={`Illustrated portrait of ${DOCTOR.fullName}`}
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={1.6}
-        strokeLinecap="round"
+      <motion.div
+        className="relative"
+        initial={reduced ? { opacity: 1 } : { opacity: 0, scale: 1.04 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, amount: 0.3 }}
+        transition={{ duration: 0.9, ease: EASE }}
       >
-        <g className="text-accent">
-          {/* head */}
-          <motion.path
-            d="M200 96c-30 0-52 22-52 52 0 18 5 33 13 45 8 12 21 21 39 21s31-9 39-21c8-12 13-27 13-45 0-30-22-52-52-52Z"
-            variants={{ hidden: { pathLength: 0, opacity: 0 }, show: draw(0) }}
-          />
-          {/* hair */}
-          <motion.path
-            d="M146 148c-4-36 22-62 54-62s58 26 54 62c-6-18-24-30-54-30s-48 12-54 30Z"
-            variants={{ hidden: { pathLength: 0, opacity: 0 }, show: draw(0.15) }}
-          />
-          <motion.path
-            d="M148 140c-14 24-16 54-8 78M252 140c14 24 16 54 8 78"
-            variants={{ hidden: { pathLength: 0, opacity: 0 }, show: draw(0.3) }}
-          />
-          {/* neck + shoulders */}
-          <motion.path
-            d="M180 210v26c0 12-10 18-26 24l-38 16c-24 10-38 32-38 58v34M220 210v26c0 12 10 18 26 24l38 16c24 10 38 32 38 58v34"
-            variants={{ hidden: { pathLength: 0, opacity: 0 }, show: draw(0.4) }}
-          />
-          {/* coat lapels */}
-          <motion.path
-            d="M172 244l28 46 28-46M200 290v78"
-            variants={{ hidden: { pathLength: 0, opacity: 0 }, show: draw(0.55) }}
-          />
-          <motion.path
-            d="M156 256l-14 112M244 256l14 112"
-            variants={{ hidden: { pathLength: 0, opacity: 0 }, show: draw(0.65) }}
-          />
-        </g>
-
-        {/* stethoscope — the one element in vital rose */}
-        <g className="text-vital" strokeWidth={2.2}>
-          <motion.path
-            d="M168 232c-16 16-22 44-14 70 6 20 22 32 40 32s34-12 40-32c8-26 2-54-14-70"
-            variants={{ hidden: { pathLength: 0, opacity: 0 }, show: draw(0.8) }}
-          />
-          <motion.path
-            d="M194 334v34"
-            variants={{ hidden: { pathLength: 0, opacity: 0 }, show: draw(1.0) }}
-          />
-          <motion.circle
-            cx="194"
-            cy="382"
-            r="14"
-            variants={{ hidden: { pathLength: 0, opacity: 0 }, show: draw(1.1) }}
-          />
-        </g>
-      </motion.svg>
+        <img
+          src="/doctor/portrait.jpg"
+          alt={`${DOCTOR.fullName}, ${DOCTOR.title}`}
+          width={738}
+          height={1033}
+          loading="lazy"
+          decoding="async"
+          className="block aspect-[5/7] w-full object-cover object-top"
+          style={{ filter: "saturate(0.82) contrast(1.06) brightness(0.94)" }}
+        />
+        {/* teal wash — soft-light keeps skin tones honest */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 mix-blend-soft-light"
+          style={{ background: "rgba(45,212,191,0.28)" }}
+        />
+        {/* vignette + foot fade into the data plate below */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 78% 70% at 50% 40%, transparent 40%, rgba(4,9,12,0.42) 85%, rgba(4,9,12,0.72) 100%), linear-gradient(180deg, rgba(4,9,12,0.35) 0%, transparent 22%, transparent 72%, rgba(4,9,12,0.55) 100%)",
+          }}
+        />
+        <div aria-hidden className="scan-grid pointer-events-none absolute inset-0 opacity-25" />
+      </motion.div>
 
       {/* data plate */}
-      <div className="relative border-t border-line bg-void/50 px-6 py-5 backdrop-blur-sm">
-        <div className="flex items-center justify-between gap-4">
+      <div className="relative border-t border-line bg-void/50 px-5 py-5 backdrop-blur-sm sm:px-6">
+        {/* The badge sits beside the name only where there is room for it. */}
+        <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <div>
             <div className="font-display text-lg font-semibold text-ink">{DOCTOR.fullName}</div>
             <div className="mt-0.5 text-[13px] text-ink-faint">{DOCTOR.credentials}</div>
@@ -116,7 +70,7 @@ function PortraitPlate() {
               {DOCTOR.post}, {DOCTOR.institution}
             </div>
           </div>
-          <span className="flex items-center gap-1.5 rounded-full border border-accent/40 px-3 py-1 text-[11px] uppercase tracking-[0.14em] text-accent">
+          <span className="flex shrink-0 items-center gap-1.5 rounded-full border border-accent/40 px-3 py-1 text-[11px] uppercase tracking-[0.14em] text-accent">
             <BadgeCheck className="h-3.5 w-3.5" /> Verified
           </span>
         </div>
@@ -185,7 +139,9 @@ export default function About() {
                 fellowship in clinical cardiology and a diploma in allergy &amp; asthma from CMC
                 Vellore. He serves as Associate Professor in the Department of Respiratory Medicine
                 at {DOCTOR.institution}, alongside {DOCTOR.experienceYears} years of clinical
-                practice in airway, interstitial, infectious and sleep-related disease.
+                practice in airway, interstitial, infectious and sleep-related disease. That
+                practice was built across Delhi's tertiary chest services — LRS (NITRD), Maulana
+                Azad Medical College, Fortis Vasant Kunj and Max Saket.
               </p>
               <p>
                 The practice is built around one conviction: a patient who understands their own
@@ -261,6 +217,33 @@ export default function About() {
                   ))}
                 </ol>
               </div>
+            </div>
+
+            {/* ── hospitals worked at ── */}
+            <div className="mt-14">
+              <h3
+                data-reveal
+                className="flex items-center gap-2 font-display text-sm font-semibold uppercase tracking-[0.2em] text-ink-faint"
+              >
+                <Building2 className="h-4 w-4" /> Hospital experience
+              </h3>
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                {EXPERIENCE.map((p, i) => (
+                  <motion.li
+                    key={p.hospital}
+                    initial={{ opacity: 0, y: 14 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.6 }}
+                    transition={{ duration: 0.5, delay: i * 0.06, ease: EASE }}
+                    className="rounded-2xl border border-line bg-panel-raised/50 px-5 py-4"
+                  >
+                    <div className="font-display text-[15px] font-semibold leading-snug text-ink">
+                      {p.hospital}
+                    </div>
+                    <div className="mt-1 text-[13px] text-ink-faint">{p.city}</div>
+                  </motion.li>
+                ))}
+              </ul>
             </div>
 
             <div

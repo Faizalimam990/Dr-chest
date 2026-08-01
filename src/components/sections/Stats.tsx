@@ -60,16 +60,17 @@ export default function Stats() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-2 gap-y-12 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-y-12 lg:grid-cols-4">
           {STATS.map((s) => (
             <div
               key={s.label}
               data-stat
               data-value={s.value}
               data-decimals={s.decimals ?? 0}
-              className="border-l border-line pl-6"
+              className="min-w-0 border-l border-line pl-4 sm:pl-6"
             >
-              <div className="flex items-baseline font-display text-5xl font-semibold text-gradient md:text-6xl">
+              {/* Two columns on a phone: "12,000+" has to fit ~150px. */}
+              <div className="flex items-baseline font-display text-[clamp(1.85rem,8.5vw,3.75rem)] font-semibold text-gradient">
                 <span data-stat-num>0</span>
                 <span>{s.suffix}</span>
               </div>

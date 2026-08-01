@@ -33,5 +33,21 @@
 
   --line: rgba(234, 246, 248, 0.1);
 
+  /* ── Channel triplets ──────────────────────────────────────────────────
+     Same colours as above, as bare "R G B" so Tailwind can compose them
+     with an alpha channel. Without these, `bg-void/70`, `text-ink/90`,
+     `border-accent/40` and friends compile to nothing at all. Keep each
+     triplet in step with its hex above. */
+  --void-rgb: 4 9 12;
+  --panel-rgb: 8 17 22;
+  --panel-raised-rgb: 13 26 33;
+  --ink-rgb: 234 246 248;
+  --ink-muted-rgb: 147 168 177;
+  --ink-faint-rgb: 91 114 125;
+  --accent-rgb: 45 212 191;
+  --accent-deep-rgb: 8 145 178;
+  --vital-rgb: 251 113 133;
+  --cyan-rgb: 34 211 238;
+
   --nav-h: 78px;
 }

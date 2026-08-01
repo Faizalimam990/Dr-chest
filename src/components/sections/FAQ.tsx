@@ -64,8 +64,9 @@ export default function FAQ() {
           </p>
         </div>
 
-        {/* Right — staircase */}
-        <div className="relative pr-5 sm:pr-8">
+        {/* Right — staircase. Below lg it is the only column, so it carries the
+            page gutter itself; from lg up the indent starts flush with the grid. */}
+        <div className="relative px-[clamp(1.25rem,5vw,4rem)] lg:pl-0 lg:pr-8">
           {FAQS.map((item, i) => {
             const isOpen = open === i;
             return (
@@ -79,7 +80,7 @@ export default function FAQ() {
                   {...linkCursor}
                   onClick={() => setOpen(isOpen ? null : i)}
                   aria-expanded={isOpen}
-                  className={`group flex w-full items-center gap-5 border px-6 py-6 text-left transition-colors duration-300 ${
+                  className={`group flex w-full items-center gap-4 border px-5 py-5 text-left transition-colors duration-300 sm:gap-5 sm:px-6 sm:py-6 ${
                     isOpen
                       ? "border-accent bg-[rgba(45,212,191,0.05)]"
                       : "border-line hover:border-accent"
@@ -92,7 +93,7 @@ export default function FAQ() {
                     strokeWidth={1.5}
                   />
                   <span
-                    className={`font-display text-xl font-medium tracking-tight transition-colors duration-300 md:text-2xl ${
+                    className={`font-display text-lg font-medium tracking-tight transition-colors duration-300 sm:text-xl md:text-2xl ${
                       isOpen ? "text-accent" : "text-ink group-hover:text-accent"
                     }`}
                   >
@@ -109,7 +110,7 @@ export default function FAQ() {
                       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                       className="overflow-hidden border-x border-b border-accent/40"
                     >
-                      <p className="max-w-2xl px-6 py-6 leading-relaxed text-ink-muted">
+                      <p className="max-w-2xl px-5 py-5 leading-relaxed text-ink-muted sm:px-6 sm:py-6">
                         {item.a}
                       </p>
                     </motion.div>
