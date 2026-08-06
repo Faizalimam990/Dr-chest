@@ -24,7 +24,7 @@ export const DOCTOR = {
   /** Current academic appointment. */
   post: "Associate Professor, Department of Respiratory Medicine",
   institution: "RKDF Medical College, Bhopal",
-  email: "care@drvijaykumar.clinic",
+  email: "vijayk.sharma4u@gmail.com",
   phone: "+91 83490 31096",
   phoneHref: "+918349031096",
   registration: "DMC Reg. 61372 · MPMC Reg. 16135",
@@ -473,14 +473,14 @@ export interface Clinic {
 /** Where the consultations happen — powers the map section. */
 export const CLINICS: Clinic[] = [
   {
-    name: "RKDF Medical College Hospital & Research Centre",
-    area: "Misrod, Bhopal",
+    name: "Bhopal Chest Allergy and Sleep Centre",
+    area: "Hoshangabad Road, Bhopal",
     address:
-      "Associate Professor, Department of Respiratory Medicine, RKDF Medical College, Ruchi Lifescape Road, Misrod, Bhopal 462026",
+      "15, E-Block, Surendra Landmark, Near Ashima Mall, Hoshangabad Road, Bhopal",
     hours: "OPD by appointment",
     phone: DOCTOR.phone,
-    coords: [23.1761, 77.4789],
-    bbox: "77.4689,23.1691,77.4889,23.1831",
+    coords: [23.2035, 77.4372],
+    bbox: "77.4272,23.1965,77.4472,23.2105",
     services: ["Consultation", "Spirometry", "Bronchoscopy", "Sleep study"],
   },
 ];

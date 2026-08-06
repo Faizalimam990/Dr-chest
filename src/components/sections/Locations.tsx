@@ -96,12 +96,14 @@ export default function Locations() {
             </span>
             <h2 data-reveal className="mt-5 font-display text-display-md font-semibold text-ink">
               Consulting at{" "}
-              <em className="accent-serif text-gradient">RKDF Medical College.</em>
+              <em className="accent-serif text-gradient">
+                Bhopal Chest Allergy and Sleep Centre.
+              </em>
             </h2>
           </div>
           <p data-reveal className="max-w-xs text-sm leading-relaxed text-ink-faint">
-            Consultations, lung function testing and bronchoscopy — Department of Respiratory
-            Medicine, Misrod, Bhopal.
+            Consultations, lung function testing and bronchoscopy — 15, E-Block, Surendra Landmark,
+            near Ashima Mall, Hoshangabad Road, Bhopal.
           </p>
         </div>
 

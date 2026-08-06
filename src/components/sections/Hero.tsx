@@ -321,7 +321,9 @@ export default function Hero() {
     // Tall section, sticky viewport: the extra height is the runway the chest
     // sequence scrubs along.
     <section ref={root} id="hero" className="relative h-[320svh]">
-      <div className="sticky top-0 flex h-[100svh] items-center overflow-hidden">
+      {/* Below lg the copy is taller than a short phone viewport, so it anchors
+          under the bar rather than centring and spilling past both edges. */}
+      <div className="sticky top-0 flex h-[100svh] items-start overflow-hidden lg:items-center">
         {/* radiology light-box grid */}
         <div aria-hidden className="scan-grid pointer-events-none absolute inset-0 -z-10" />
 
@@ -358,11 +360,9 @@ export default function Hero() {
         </div>
 
         {/* ── headline copy ── */}
-        {/* The bottom padding lifts the centred block clear of the scroll cue,
-            which shares the bottom of the viewport on phones. */}
         <div
           data-hero-copy
-          className="container-edge relative z-30 pb-28 pt-[var(--nav-h)] lg:pb-0"
+          className="container-edge relative z-30 pb-10 pt-[calc(var(--nav-h)+0.75rem)] lg:pb-0 lg:pt-[var(--nav-h)]"
         >
           <div className="max-w-2xl">
             <span data-hero-eyebrow className="eyebrow max-w-full">
@@ -488,7 +488,9 @@ export default function Hero() {
         {/* ── scroll cue ── */}
         <div
           ref={cueRef}
-          className="pointer-events-none absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-3"
+          /* On viewports too short to hold the copy and the cue at once, the
+             copy wins — the phase cards make the scroll obvious anyway. */
+          className="pointer-events-none absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-3 [@media(max-height:720px)]:hidden"
         >
           <span className="whitespace-nowrap font-display text-[10px] uppercase tracking-[0.22em] text-ink-muted [text-shadow:0_1px_3px_rgba(0,0,0,0.8)] sm:text-[11px] sm:tracking-[0.3em]">
             Scroll to look inside
