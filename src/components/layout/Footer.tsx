@@ -199,7 +199,7 @@ export default function Footer() {
             <p className="mt-2 text-sm leading-relaxed text-ink-muted">
               {DOCTOR.title}
               <br />
-              {DOCTOR.post}, {DOCTOR.institution}
+              {DOCTOR.post}
             </p>
             <p className="nums mt-4 text-[11px] uppercase tracking-[0.18em] text-ink-faint">
               {DOCTOR.credentialsLong}

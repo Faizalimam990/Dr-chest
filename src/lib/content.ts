@@ -23,7 +23,6 @@ export const DOCTOR = {
   title: "Interventional Pulmonologist",
   /** Current academic appointment. */
   post: "Associate Professor, Department of Respiratory Medicine",
-  institution: "RKDF Medical College, Bhopal",
   email: "vijayk.sharma4u@gmail.com",
   phone: "+91 83490 31096",
   phoneHref: "+918349031096",
@@ -33,7 +32,6 @@ export const DOCTOR = {
 
 /** Institutions, councils & academies behind the training — trust marquee. */
 export const AFFILIATIONS = [
-  "RKDF Medical College, Bhopal",
   "Max Hospital, Saket",
   "Fortis Hospital, Vasant Kunj",
   "LRS Institute (NITRD), New Delhi",

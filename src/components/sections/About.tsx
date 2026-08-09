@@ -67,7 +67,7 @@ function PortraitPlate() {
             <div className="mt-2 text-[12px] leading-snug text-ink-muted">
               {DOCTOR.title}
               <br />
-              {DOCTOR.post}, {DOCTOR.institution}
+              {DOCTOR.post}
             </div>
           </div>
           <span className="flex shrink-0 items-center gap-1.5 rounded-full border border-accent/40 px-3 py-1 text-[11px] uppercase tracking-[0.14em] text-accent">
@@ -137,9 +137,9 @@ export default function About() {
               <p>
                 {DOCTOR.name} is an interventional pulmonologist with an MD in chest medicine, a
                 fellowship in clinical cardiology and a diploma in allergy &amp; asthma from CMC
-                Vellore. He serves as Associate Professor in the Department of Respiratory Medicine
-                at {DOCTOR.institution}, alongside {DOCTOR.experienceYears} years of clinical
-                practice in airway, interstitial, infectious and sleep-related disease. That
+                Vellore. He serves as Associate Professor in the Department of Respiratory Medicine,
+                alongside {DOCTOR.experienceYears} years of clinical practice in airway,
+                interstitial, infectious and sleep-related disease. That
                 practice was built across Delhi's tertiary chest services — LRS (NITRD), Maulana
                 Azad Medical College, Fortis Vasant Kunj and Max Saket.
               </p>

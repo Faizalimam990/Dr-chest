@@ -415,7 +415,7 @@ export default function Hero() {
               {[
                 DOCTOR.credentials,
                 `${DOCTOR.experienceYears}+ yrs practice`,
-                `Associate Professor · ${DOCTOR.institution}`,
+                "Associate Professor · Respiratory Medicine",
               ].map(
                 (item) => (
                   <li
