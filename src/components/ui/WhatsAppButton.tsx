@@ -18,9 +18,9 @@ function WhatsAppGlyph({ className = "" }: { className?: string }) {
 }
 
 /**
- * Sticky WhatsApp call-to-action. Sits bottom-right from the moment the hero
- * scrolls away, and steps aside while the mobile nav sheet is open so it can't
- * float over the menu.
+ * Sticky WhatsApp call-to-action. Present from first paint — it's the fastest
+ * route to a booking, so it doesn't wait on a scroll — and steps aside while
+ * the mobile nav sheet is open so it can't float over the menu.
  */
 export default function WhatsAppButton() {
   const [visible, setVisible] = useState(false);
@@ -28,11 +28,10 @@ export default function WhatsAppButton() {
   const cursor = useCursorVariant("hover-link", "Chat");
 
   useEffect(() => {
-    // Lenis drives native window scroll, so a plain listener stays in step.
-    const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.6);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    // One frame late so the mounted state transitions in rather than popping,
+    // and so it lands after the preloader clears.
+    const id = window.setTimeout(() => setVisible(true), 600);
+    return () => window.clearTimeout(id);
   }, []);
 
   const shown = visible && !mobileNavOpen;

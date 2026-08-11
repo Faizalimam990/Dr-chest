@@ -2,6 +2,7 @@ import { useLenis } from "@/hooks/useLenis";
 import CustomCursor from "@/components/cursor/CustomCursor";
 import NoiseOverlay from "@/components/ui/NoiseOverlay";
 import ProgressBar from "@/components/ui/ProgressBar";
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import GradientBlob from "@/components/ui/GradientBlob";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -59,6 +60,8 @@ export default function App() {
       </main>
 
       <Footer />
+
+      <WhatsAppButton />
     </>
   );
 }
