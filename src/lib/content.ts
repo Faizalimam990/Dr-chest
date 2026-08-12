@@ -12,8 +12,8 @@ import {
 
 /** Practice identity — single source of truth for the doctor's details. */
 export const DOCTOR = {
-  name: "Dr. Vijay Kumar Sharma",
-  fullName: "Dr. Vijay Kumar Sharma",
+  name: "Dr. Vijay Kumar Shharma",
+  fullName: "Dr. Vijay Kumar Shharma",
   /** Short form for the tight spaces: nav on small screens, tab titles. */
   shortName: "Dr. Vijay",
   credentials: "MBBS, MD (Chest Medicine), FCC, DAA",
@@ -199,7 +199,7 @@ export interface Testimonial {
 export const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      "I had been treated for asthma for six years. Dr. Sharma ran one proper lung function test and found it was never asthma at all.",
+      "I had been treated for asthma for six years. Dr. Shharma ran one proper lung function test and found it was never asthma at all.",
     name: "Rohan M.",
     role: "Patient since 2022",
     company: "Indiranagar clinic",
@@ -455,16 +455,34 @@ export const CERTIFICATES: Certificate[] = [
   },
 ];
 
+/**
+ * The practice's Google Business Profile. `place` is the short link off the
+ * listing itself; `review` is the write-a-review deep link, which drops the
+ * patient straight into the review composer instead of the listing page.
+ */
+export const GOOGLE = {
+  place: "https://maps.app.goo.gl/f2q4DmiY2cfyqQeAA?g_st=aw",
+  review: "https://g.page/r/CZ-QAkKyOh8uEBI/review",
+};
+
 export interface Clinic {
   name: string;
   area: string;
   address: string;
+  /** Locality line for the map HUD — what a patient would tell a driver. */
+  locality: string;
   hours: string;
   phone: string;
-  /** [lat, lng] — used for the map embed and the pin overlay. */
+  /** [lat, lng] — kept for structured data; the map itself resolves by name. */
   coords: [number, number];
-  /** Bounding box for the OpenStreetMap iframe: minLng,minLat,maxLng,maxLat */
-  bbox: string;
+  /**
+   * Query the Google Maps embed and the directions link resolve against. It is
+   * the address exactly as it reads on the Business Profile, so Google lands on
+   * the listing rather than guessing at a nearby building.
+   */
+  mapQuery: string;
+  /** Canonical Google Maps link for this clinic. */
+  mapsUrl: string;
   services: string[];
 }
 
@@ -475,10 +493,13 @@ export const CLINICS: Clinic[] = [
     area: "Hoshangabad Road, Bhopal",
     address:
       "15, E-Block, Surendra Landmark, Near Ashima Mall, Hoshangabad Road, Bhopal",
+    locality: "Narmadapuram Rd · Bhopal 462026",
     hours: "OPD by appointment",
     phone: DOCTOR.phone,
     coords: [23.2035, 77.4372],
-    bbox: "77.4272,23.1965,77.4472,23.2105",
+    mapQuery:
+      "Bhopal Chest Allergy & Sleep Centre, E-15, Surendra Landmark, Narmadapuram Road, Bagmugaliya, Bhopal, Madhya Pradesh 462026",
+    mapsUrl: GOOGLE.place,
     services: ["Consultation", "Spirometry", "Bronchoscopy", "Sleep study"],
   },
 ];

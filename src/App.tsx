@@ -15,6 +15,7 @@ import ServicesOrbit from "@/components/sections/ServicesOrbit";
 import PatientJourney from "@/components/sections/PatientJourney";
 import Stats from "@/components/sections/Stats";
 import Testimonials from "@/components/sections/Testimonials";
+import ReviewUs from "@/components/sections/ReviewUs";
 import Locations from "@/components/sections/Locations";
 import FAQ from "@/components/sections/FAQ";
 import Contact from "@/components/sections/Contact";
@@ -54,6 +55,7 @@ export default function App() {
         <PatientJourney />
         <Stats />
         <Testimonials />
+        <ReviewUs />
         <Locations />
         <FAQ />
         <Contact />

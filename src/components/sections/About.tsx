@@ -1,61 +1,45 @@
 import { useRef } from "react";
 import { motion } from "framer-motion";
 import { useGSAP } from "@gsap/react";
-import { ArrowUpRight, BadgeCheck, Building2, Languages, GraduationCap } from "lucide-react";
+import {
+  ArrowUpRight,
+  BadgeCheck,
+  Building2,
+  CalendarCheck,
+  Clock,
+  GraduationCap,
+  Languages,
+  MapPin,
+  Phone,
+} from "lucide-react";
 import { gsap } from "@/lib/gsap";
-import { DOCTOR, CREDENTIALS, EXPERIENCE } from "@/lib/content";
+import { CLINICS, CREDENTIALS, DOCTOR, EXPERIENCE } from "@/lib/content";
 import { prefersReducedMotion } from "@/lib/env";
 import { scrollToId } from "@/hooks/useLenis";
 import { useReveal } from "@/hooks/useReveal";
+import { useCursorVariant } from "@/hooks/useCursorVariant";
 import EcgLine from "@/components/ui/EcgLine";
+import ClinicalPhoto from "@/components/ui/ClinicalPhoto";
+import MagneticButton from "@/components/ui/MagneticButton";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 /**
- * The practitioner's own photograph, graded into the palette rather than
- * dropped in raw: the source is a warm, bright clinic snap and the page is a
- * cool near-black, so it gets a light desaturation, a teal soft-light wash and
- * a vignette to sink its edges into the plate.
+ * The practitioner's own photograph over a data plate carrying the billing.
+ * The grading lives in ClinicalPhoto so this frame matches the other clinic
+ * photographs on the page.
  */
 function PortraitPlate() {
-  const reduced = prefersReducedMotion();
-
   return (
     <div className="relative overflow-hidden rounded-3xl border border-line bg-panel-raised">
-      <motion.div
-        className="relative"
-        initial={reduced ? { opacity: 1 } : { opacity: 0, scale: 1.04 }}
-        whileInView={{ opacity: 1, scale: 1 }}
-        viewport={{ once: true, amount: 0.3 }}
-        transition={{ duration: 0.9, ease: EASE }}
-      >
-        <img
-          src="/doctor/portrait.jpg"
-          alt={`${DOCTOR.fullName}, ${DOCTOR.title}`}
-          width={738}
-          height={1033}
-          loading="lazy"
-          decoding="async"
-          className="block aspect-[5/7] w-full object-cover object-top"
-          style={{ filter: "saturate(0.82) contrast(1.06) brightness(0.94)" }}
-        />
-        {/* teal wash — soft-light keeps skin tones honest */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0 mix-blend-soft-light"
-          style={{ background: "rgba(45,212,191,0.28)" }}
-        />
-        {/* vignette + foot fade into the data plate below */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "radial-gradient(ellipse 78% 70% at 50% 40%, transparent 40%, rgba(4,9,12,0.42) 85%, rgba(4,9,12,0.72) 100%), linear-gradient(180deg, rgba(4,9,12,0.35) 0%, transparent 22%, transparent 72%, rgba(4,9,12,0.55) 100%)",
-          }}
-        />
-        <div aria-hidden className="scan-grid pointer-events-none absolute inset-0 opacity-25" />
-      </motion.div>
+      <ClinicalPhoto
+        src="/doctor/portrait.jpg"
+        alt={`${DOCTOR.fullName}, ${DOCTOR.title}`}
+        width={738}
+        height={1033}
+        aspect="aspect-[5/7]"
+        position="object-top"
+      />
 
       {/* data plate */}
       <div className="relative border-t border-line bg-void/50 px-5 py-5 backdrop-blur-sm sm:px-6">
@@ -86,6 +70,8 @@ export default function About() {
   const root = useRef<HTMLElement>(null);
   useReveal(root);
   const railRef = useRef<HTMLDivElement>(null);
+  const linkCursor = useCursorVariant("hover-link");
+  const clinic = CLINICS[0];
 
   /* Timeline rail fills as the credential list scrolls past. */
   useGSAP(
@@ -113,9 +99,67 @@ export default function About() {
     <section ref={root} id="about" className="relative overflow-hidden py-28">
       <div className="container-edge">
         <div className="grid items-start gap-14 lg:grid-cols-[minmax(0,42%)_minmax(0,58%)] lg:gap-20">
-          {/* ── portrait ── */}
-          <div data-reveal className="lg:sticky lg:top-[calc(var(--nav-h)+2rem)]">
+          {/*
+            ── portrait rail ──
+            The grid is items-start, so this column shrink-wraps its content
+            rather than tracking the much longer bio beside it. It carries the
+            photographs and the booking card so the space stays worked rather
+            than running blank down the left of the timeline.
+          */}
+          <div data-reveal className="flex flex-col gap-4">
             <PortraitPlate />
+
+            {/* ── at work ── */}
+            <figure className="overflow-hidden rounded-3xl border border-line bg-panel-raised">
+              <ClinicalPhoto
+                src="/doctor/bronchoscopy-suite.webp"
+                alt={`${DOCTOR.name} holding a flexible bronchoscope in the procedure room, patient vitals on the monitor beside him`}
+                width={1080}
+                height={514}
+                aspect="aspect-[21/10]"
+              />
+              <figcaption className="border-t border-line bg-void/50 px-5 py-4 backdrop-blur-sm">
+                <span className="font-display text-[11px] uppercase tracking-[0.2em] text-accent">
+                  In the procedure room
+                </span>
+                <span className="mt-1.5 block text-[13px] leading-relaxed text-ink-muted">
+                  Flexible bronchoscopy under continuous monitoring — the airway looked at directly
+                  rather than inferred from a scan.
+                </span>
+              </figcaption>
+            </figure>
+
+            {/* ── booking rail ── */}
+            <div className="glass-card p-6">
+              <h3 className="font-display text-[11px] uppercase tracking-[0.24em] text-ink-faint">
+                Consulting
+              </h3>
+              <ul className="mt-5 space-y-3.5 text-sm">
+                <li className="flex items-start gap-2.5 text-ink-muted">
+                  <Clock className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                  {clinic.hours}
+                </li>
+                <li className="flex items-start gap-2.5 text-ink-muted">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                  {clinic.area}
+                </li>
+                <li>
+                  <a
+                    href={`tel:${DOCTOR.phoneHref}`}
+                    {...linkCursor}
+                    className="flex items-start gap-2.5 text-ink transition-colors hover:text-accent"
+                  >
+                    <Phone className="mt-0.5 h-4 w-4 shrink-0 text-accent" />
+                    <span className="nums font-medium">{DOCTOR.phone}</span>
+                  </a>
+                </li>
+              </ul>
+              <div className="mt-6">
+                <MagneticButton onClick={() => scrollToId("contact")}>
+                  Book an appointment <CalendarCheck className="h-4 w-4" />
+                </MagneticButton>
+              </div>
+            </div>
           </div>
 
           {/* ── bio + credentials ── */}

@@ -4,17 +4,25 @@ import { MapPin, Clock, Phone, Navigation, ArrowUpRight } from "lucide-react";
 import { CLINICS } from "@/lib/content";
 import { useReveal } from "@/hooks/useReveal";
 import { useCursorVariant } from "@/hooks/useCursorVariant";
+import ClinicalPhoto from "@/components/ui/ClinicalPhoto";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
 /**
- * OpenStreetMap embed — no API key, no tracker, no billing account. The dark
- * treatment is a CSS filter over the light Mapnik tiles, which keeps the map
- * on-palette without needing a paid custom style.
+ * Google Maps embed of the practice's own Business Profile listing. The keyless
+ * `output=embed` endpoint is used deliberately — it needs no API key and no
+ * billing account, and resolving by the listing's own address string lands the
+ * pin on the clinic rather than on a neighbouring building.
+ *
+ * The dark treatment is a CSS filter over Google's light tiles, which keeps the
+ * map on-palette without a paid custom style. It is kept lighter than the rest
+ * of the page's washes so Google's own attribution and controls stay legible.
  */
 function MapFrame({ index }: { index: number }) {
   const clinic = CLINICS[index];
-  const src = `https://www.openstreetmap.org/export/embed.html?bbox=${clinic.bbox}&layer=mapnik`;
+  const src = `https://maps.google.com/maps?q=${encodeURIComponent(
+    clinic.mapQuery,
+  )}&z=16&hl=en&output=embed`;
 
   return (
     <div className="relative h-full w-full overflow-hidden rounded-2xl bg-panel-raised">
@@ -24,7 +32,7 @@ function MapFrame({ index }: { index: number }) {
       <AnimatePresence mode="wait">
         <motion.iframe
           key={clinic.name}
-          title={`Map showing ${clinic.name}`}
+          title={`Google map showing ${clinic.name}`}
           src={src}
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"
@@ -34,7 +42,7 @@ function MapFrame({ index }: { index: number }) {
           transition={{ duration: 0.6, ease: EASE }}
           className="absolute inset-0 h-full w-full border-0"
           style={{
-            filter: "invert(0.92) hue-rotate(178deg) brightness(0.82) contrast(1.08) saturate(0.62)",
+            filter: "invert(0.9) hue-rotate(180deg) brightness(0.9) contrast(0.95) saturate(0.7)",
           }}
         />
       </AnimatePresence>
@@ -43,35 +51,26 @@ function MapFrame({ index }: { index: number }) {
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 mix-blend-color"
-        style={{ background: "rgba(45,212,191,0.22)" }}
+        style={{ background: "rgba(45,212,191,0.18)" }}
       />
-      {/* Vignette to sink the tile edges into the panel. */}
+      {/*
+        Vignette to sink the tile edges into the panel. Kept off the bottom band
+        so Google's attribution and the zoom controls are never dimmed.
+      */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 50% 50%, transparent 38%, rgba(4,9,12,0.55) 78%, rgba(4,9,12,0.9) 100%)",
+            "radial-gradient(ellipse at 50% 42%, transparent 46%, rgba(4,9,12,0.3) 82%, rgba(4,9,12,0.5) 100%)",
         }}
       />
 
-      {/* Custom locator pin at the bbox centre — i.e. the clinic. */}
-      <div aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
-        <span className="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border border-accent/50 animate-pin-ping" />
-        <span
-          className="absolute left-1/2 top-1/2 h-16 w-16 -translate-x-1/2 -translate-y-1/2 rounded-full border border-accent/40 animate-pin-ping"
-          style={{ animationDelay: "1.2s" }}
-        />
-        <span className="relative flex h-9 w-9 items-center justify-center rounded-full bg-accent text-void shadow-[0_0_36px_-4px_var(--accent)]">
-          <MapPin className="h-4 w-4" strokeWidth={2.5} />
-        </span>
-      </div>
-
-      {/* Coordinate HUD. */}
-      <div className="pointer-events-none absolute bottom-4 left-4 z-10 flex items-center gap-3 rounded-full border border-line bg-void/70 px-4 py-2 backdrop-blur-md">
+      {/* Locality HUD — the line a patient would give a driver. */}
+      <div className="pointer-events-none absolute left-4 top-4 z-10 flex items-center gap-3 rounded-full border border-line bg-void/75 px-4 py-2 backdrop-blur-md">
         <span className="h-1.5 w-1.5 rounded-full bg-accent" />
         <span className="nums font-display text-[11px] uppercase tracking-[0.16em] text-ink-muted">
-          {clinic.coords[0].toFixed(4)}° N · {clinic.coords[1].toFixed(4)}° E
+          {clinic.locality}
         </span>
       </div>
     </div>
@@ -164,6 +163,26 @@ export default function Locations() {
                 </button>
               );
             })}
+
+            {/* What the facility actually looks like, beside where to find it. */}
+            <figure className="overflow-hidden rounded-2xl border border-line bg-panel-raised">
+              <ClinicalPhoto
+                src="/doctor/airway-procedure.webp"
+                alt="Bronchoscopy under way in the procedure room, with the patient's vitals on the monitor"
+                width={1000}
+                height={896}
+                aspect="aspect-square"
+              />
+              <figcaption className="border-t border-line bg-void/50 px-5 py-4 backdrop-blur-sm">
+                <span className="font-display text-[11px] uppercase tracking-[0.2em] text-accent">
+                  On site
+                </span>
+                <span className="mt-1.5 block text-[13px] leading-relaxed text-ink-muted">
+                  Spirometry, sleep studies and diagnostic bronchoscopy are all done here — no
+                  second appointment somewhere else for the basic tests.
+                </span>
+              </figcaption>
+            </figure>
           </div>
 
           {/* ── map + active clinic detail ── */}
@@ -202,17 +221,32 @@ export default function Locations() {
                   </a>
                 </div>
 
-                <a
-                  href={`https://www.google.com/maps/dir/?api=1&destination=${clinic.coords[0]},${clinic.coords[1]}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  {...linkCursor}
-                  className="group inline-flex items-center gap-2 rounded-full border border-accent/50 px-6 py-3 text-sm font-semibold text-accent transition-colors hover:bg-accent hover:text-void"
-                >
-                  <Navigation className="h-4 w-4" />
-                  Get directions
-                  <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                </a>
+                <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+                  <a
+                    href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+                      clinic.mapQuery,
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    {...linkCursor}
+                    className="group inline-flex items-center gap-2 rounded-full border border-accent/50 px-6 py-3 text-sm font-semibold text-accent transition-colors hover:bg-accent hover:text-void"
+                  >
+                    <Navigation className="h-4 w-4" />
+                    Get directions
+                    <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </a>
+
+                  <a
+                    href={clinic.mapsUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    {...linkCursor}
+                    className="group inline-flex items-center gap-1.5 text-sm text-ink-muted transition-colors hover:text-accent"
+                  >
+                    Open in Google Maps
+                    <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </a>
+                </div>
               </motion.div>
             </AnimatePresence>
           </div>

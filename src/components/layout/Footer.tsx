@@ -1,11 +1,11 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { Phone, Mail, MapPin, ArrowUp } from "lucide-react";
+import { Phone, Mail, MapPin, ArrowUp, ArrowUpRight, Star } from "lucide-react";
 import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { prefersReducedMotion, isTouchDevice } from "@/lib/env";
 import { useCursorVariant } from "@/hooks/useCursorVariant";
 import { scrollToId } from "@/hooks/useLenis";
-import { DOCTOR, CLINICS, NAV_LINKS, SERVICES } from "@/lib/content";
+import { DOCTOR, CLINICS, GOOGLE, NAV_LINKS, SERVICES } from "@/lib/content";
 import EcgLine from "@/components/ui/EcgLine";
 
 const LINK_TARGET: Record<string, string> = {
@@ -220,7 +220,7 @@ export default function Footer() {
               {CLINICS.map((c) => (
                 <li key={c.name}>
                   <a
-                    href={`https://www.google.com/maps/dir/?api=1&destination=${c.coords[0]},${c.coords[1]}`}
+                    href={c.mapsUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     {...linkCursor}
@@ -281,6 +281,19 @@ export default function Footer() {
                 >
                   <Mail className="h-3.5 w-3.5 text-accent" />
                   {DOCTOR.email}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={GOOGLE.review}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  {...linkCursor}
+                  className="group flex items-center gap-2 text-sm text-ink-muted transition-colors hover:text-accent"
+                >
+                  <Star className="h-3.5 w-3.5 text-accent" />
+                  Review us on Google
+                  <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </a>
               </li>
             </ul>

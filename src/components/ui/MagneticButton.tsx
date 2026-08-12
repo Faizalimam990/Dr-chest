@@ -16,6 +16,9 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   className?: string;
   /** Renders as an anchor instead of a button — for tel:, mailto: and links. */
   href?: string;
+  /** Only meaningful alongside `href` — for opening an external link safely. */
+  target?: AnchorHTMLAttributes<HTMLAnchorElement>["target"];
+  rel?: string;
 }
 
 /**
@@ -23,7 +26,7 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
  * "hover-magnetic" cursor variant, and animates its own gradient border.
  */
 const MagneticButton = forwardRef<HTMLButtonElement, Props>(function MagneticButton(
-  { children, variant = "primary", strength = 0.45, className = "", href, ...rest },
+  { children, variant = "primary", strength = 0.45, className = "", href, target, rel, ...rest },
   _ref,
 ) {
   const magneticRef = useMagnetic<HTMLSpanElement>({ strength, radius: 90 });
@@ -43,6 +46,8 @@ const MagneticButton = forwardRef<HTMLButtonElement, Props>(function MagneticBut
       {href ? (
         <a
           href={href}
+          target={target}
+          rel={rel}
           className={`${base} ${styles} ${className}`}
           {...cursor}
           {...(rest as unknown as AnchorHTMLAttributes<HTMLAnchorElement>)}
