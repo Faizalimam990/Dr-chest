@@ -5,7 +5,7 @@ import { gsap, ScrollTrigger } from "@/lib/gsap";
 import { prefersReducedMotion, isTouchDevice } from "@/lib/env";
 import { useCursorVariant } from "@/hooks/useCursorVariant";
 import { scrollToId } from "@/hooks/useLenis";
-import { DOCTOR, CLINICS, GOOGLE, NAV_LINKS, SERVICES } from "@/lib/content";
+import { DOCTOR, CLINICS, GOOGLE, NAV_LINKS, SERVICES, SOCIALS } from "@/lib/content";
 import EcgLine from "@/components/ui/EcgLine";
 
 const LINK_TARGET: Record<string, string> = {
@@ -296,6 +296,22 @@ export default function Footer() {
                   <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </a>
               </li>
+              {SOCIALS.map((s) => (
+                <li key={s.label}>
+                  <a
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`${s.label} — ${s.handle}`}
+                    {...linkCursor}
+                    className="group flex items-center gap-2 text-sm text-ink-muted transition-colors hover:text-accent"
+                  >
+                    <s.icon className="h-3.5 w-3.5 text-accent" />
+                    {s.handle}
+                    <ArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  </a>
+                </li>
+              ))}
             </ul>
 
             <h3 className="mt-8 font-display text-[11px] uppercase tracking-[0.24em] text-ink-faint">

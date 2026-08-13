@@ -9,6 +9,7 @@ import {
   ShieldCheck,
   type LucideIcon,
 } from "lucide-react";
+import { InstagramIcon, FacebookIcon } from "@/components/ui/BrandIcons";
 
 /** Practice identity — single source of truth for the doctor's details. */
 export const DOCTOR = {
@@ -42,6 +43,7 @@ export const AFFILIATIONS = [
   "Sri Aurobindo Institute of Medical Sciences",
   "CMC Vellore",
   "Indian Chest Society",
+  "Medvarsity (Apollo Hospital, Indore)",
   "Bombay Hospital Institute of Medical Sciences",
 ];
 
@@ -321,7 +323,11 @@ export const CREDENTIALS: Credential[] = [
     place: "MP Medical Science University, Jabalpur",
   },
   { year: "2019", title: "Registration", place: "Delhi Medical Council" },
-  { year: "2020", title: "FCC — Fellowship in Clinical Cardiology", place: "Medvarsity" },
+  {
+    year: "2020",
+    title: "FCC — Fellowship in Clinical Cardiology",
+    place: "Medvarsity (Apollo Hospital, Indore)",
+  },
   { year: "", title: "DAA — Allergy & Asthma", place: "Christian Medical College, Vellore" },
 ];
 
@@ -391,8 +397,8 @@ export const CERTIFICATES: Certificate[] = [
   },
   {
     slug: "fcc-clinical-cardiology",
-    title: "Fellowship in Clinical Cardiology",
-    issuer: "Medvarsity",
+    title: "FCC — Fellowship in Clinical Cardiology",
+    issuer: "Medvarsity (Apollo Hospital, Indore)",
     year: "2020",
     tag: "Fellowship",
     orientation: "landscape",
@@ -464,6 +470,30 @@ export const GOOGLE = {
   place: "https://maps.app.goo.gl/f2q4DmiY2cfyqQeAA?g_st=aw",
   review: "https://g.page/r/CZ-QAkKyOh8uEBI/review",
 };
+
+export interface SocialLink {
+  icon: (props: { className?: string }) => JSX.Element;
+  label: string;
+  /** Handle as it reads on the platform — shown next to the icon. */
+  handle: string;
+  url: string;
+}
+
+/** The practice's public profiles — surfaced in the footer's "Get in touch". */
+export const SOCIALS: SocialLink[] = [
+  {
+    icon: InstagramIcon,
+    label: "Instagram",
+    handle: "@vijaykvj",
+    url: "https://www.instagram.com/vijaykvj",
+  },
+  {
+    icon: FacebookIcon,
+    label: "Facebook",
+    handle: "Facebook",
+    url: "https://www.facebook.com/share/18wAXW3uMW/",
+  },
+];
 
 export interface Clinic {
   name: string;
