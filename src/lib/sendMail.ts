@@ -2,7 +2,6 @@ import { DOCTOR } from "@/lib/content";
 
 export interface AppointmentPayload {
   name: string;
-  email: string;
   phone: string;
   clinic: string;
   concern: string;
@@ -19,7 +18,6 @@ export async function sendAppointmentRequest(data: AppointmentPayload): Promise<
   const body = [
     `Name: ${data.name}`,
     `Phone: ${data.phone}`,
-    `Email: ${data.email}`,
     `Preferred clinic: ${data.clinic}`,
     `Reason for visit: ${data.concern}`,
     "",

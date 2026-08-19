@@ -364,6 +364,18 @@ export default function Footer() {
             <ArrowUp className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5" />
           </button>
         </div>
+
+        <div className="border-t border-line py-5 text-center">
+          <a
+            href="https://flazetech.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            {...linkCursor}
+            className="text-xs text-ink-faint transition-colors hover:text-accent"
+          >
+            Developed by flazetech.in
+          </a>
+        </div>
       </div>
     </footer>
   );

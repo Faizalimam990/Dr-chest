@@ -15,7 +15,6 @@ import GradientBlob from "@/components/ui/GradientBlob";
 
 const schema = z.object({
   name: z.string().min(2, "Please enter your full name"),
-  email: z.string().min(1, "Email is required").email("Enter a valid email address"),
   phone: z
     .string()
     .min(8, "Enter a phone number we can reach you on")
@@ -205,18 +204,6 @@ export default function Contact() {
                   />
                 </Field>
               </div>
-
-              <Field label="Email" error={errors.email?.message} required>
-                <input
-                  {...register("email")}
-                  type="email"
-                  inputMode="email"
-                  className={inputCls(errors.email?.message)}
-                  placeholder="meera@example.com"
-                  autoComplete="email"
-                  aria-invalid={!!errors.email}
-                />
-              </Field>
 
               <div className="grid gap-5 sm:grid-cols-2">
                 <Field label="Preferred clinic" error={errors.clinic?.message} required>
